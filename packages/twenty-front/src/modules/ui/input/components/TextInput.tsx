@@ -9,7 +9,6 @@ import React, {
   type ChangeEvent,
   type FocusEventHandler,
   forwardRef,
-  createElement,
   useId,
   useRef,
   useState,
@@ -278,8 +277,6 @@ const TextInputComponent = forwardRef<
       leftAdornment,
       textClickOutsideId,
       inputProps,
-      id,
-      ...restInputProps
     },
     ref,
   ) => {
@@ -304,8 +301,19 @@ const TextInputComponent = forwardRef<
       onBlur?.(event);
     };
 
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+      onChange?.(turnIntoEmptyStringIfWhitespacesOnly(event.target.value));
+    };
+
+    const mergedInputProps = mergeProps<'input'>(inputProps, {
+      onFocus: handleFocus,
+      onBlur: handleBlur,
+      onKeyDown,
+      onChange: handleChange,
+    });
+
     const generatedId = useId();
-    const instanceId = inputProps?.id ?? id ?? generatedId;
+    const instanceId = inputProps?.id ?? generatedId;
 
     return (
       <Field.Root className={fieldRootClassName}>
@@ -337,41 +345,33 @@ const TextInputComponent = forwardRef<
               </StyledLeftIconContainer>
             )}
 
-            {createElement(StyledInput, {
-              'aria-label': ariaLabel,
-              id: instanceId,
-              width,
-              ...{ 'data-testid': dataTestId },
-              autoComplete: autoComplete ?? 'off',
-              tabIndex: tabIndex ?? 0,
-              type: passwordVisible ? 'text' : type,
-              autoFocus,
-              disabled,
-              readOnly,
-              placeholder,
-              required,
-              value,
-              LeftIcon,
-              RightIcon,
-              maxLength,
-              error,
-              sizeVariant,
-              inheritFontStyles,
-              autoGrow,
-              leftAdornment,
-              rightAdornment,
-              ...mergeProps<'input'>(inputProps, restInputProps, {
-                onFocus: handleFocus,
-                onBlur: handleBlur,
-                onKeyDown,
-                onChange: (event: ChangeEvent<HTMLInputElement>) => {
-                  onChange?.(
-                    turnIntoEmptyStringIfWhitespacesOnly(event.target.value),
-                  );
-                },
-              }),
-              ref: combinedRef,
-            })}
+            <StyledInput
+              aria-label={ariaLabel}
+              id={instanceId}
+              width={width}
+              data-testid={dataTestId}
+              autoComplete={autoComplete ?? 'off'}
+              tabIndex={tabIndex ?? 0}
+              type={passwordVisible ? 'text' : type}
+              autoFocus={autoFocus}
+              disabled={disabled}
+              readOnly={readOnly}
+              placeholder={placeholder}
+              required={required}
+              value={value}
+              LeftIcon={LeftIcon}
+              RightIcon={RightIcon}
+              maxLength={maxLength}
+              error={error}
+              sizeVariant={sizeVariant}
+              inheritFontStyles={inheritFontStyles}
+              autoGrow={autoGrow}
+              leftAdornment={leftAdornment}
+              rightAdornment={rightAdornment}
+              // oxlint-disable-next-line react/jsx-props-no-spreading
+              {...mergedInputProps}
+              ref={combinedRef}
+            />
             {rightAdornment && (
               <StyledAdornmentContainer
                 sizeVariant={sizeVariant}
