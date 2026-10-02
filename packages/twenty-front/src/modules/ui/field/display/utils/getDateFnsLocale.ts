@@ -9,6 +9,8 @@ export const getDateFnsLocaleImport = (locale: AppLocale) => {
       return import('date-fns/locale/af');
     case 'ar-SA':
       return import('date-fns/locale/ar');
+    case 'bn-BD':
+      return import('date-fns/locale/bn');
     case 'ca-ES':
       return import('date-fns/locale/ca');
     case 'cs-CZ':

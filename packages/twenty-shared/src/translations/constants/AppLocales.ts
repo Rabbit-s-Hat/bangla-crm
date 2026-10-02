@@ -5,6 +5,7 @@ export const APP_LOCALES = {
   'pseudo-en': 'pseudo-en',
   'af-ZA': 'af-ZA',
   'ar-SA': 'ar-SA',
+  'bn-BD': 'bn-BD',
   'ca-ES': 'ca-ES',
   'cs-CZ': 'cs-CZ',
   'da-DK': 'da-DK',
@@ -38,3 +39,7 @@ export const APP_LOCALES = {
 } as const;
 
 export type AppLocale = keyof typeof APP_LOCALES;
+
+// Bangla-first build: the locale a visitor gets before they ever pick one.
+// (English remains SOURCE_LOCALE, so untranslated strings still fall back to it.)
+export const DEFAULT_APP_LOCALE: AppLocale = 'bn-BD';

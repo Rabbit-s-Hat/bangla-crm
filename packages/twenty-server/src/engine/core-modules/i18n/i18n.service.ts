@@ -12,6 +12,7 @@ import { type APP_LOCALES, SOURCE_LOCALE } from 'twenty-shared/translations';
 
 import { messages as afMessages } from 'src/engine/core-modules/i18n/locales/generated/af-ZA';
 import { messages as arMessages } from 'src/engine/core-modules/i18n/locales/generated/ar-SA';
+import { messages as bnMessages } from 'src/engine/core-modules/i18n/locales/generated/bn-BD';
 import { messages as caMessages } from 'src/engine/core-modules/i18n/locales/generated/ca-ES';
 import { messages as csMessages } from 'src/engine/core-modules/i18n/locales/generated/cs-CZ';
 import { messages as daMessages } from 'src/engine/core-modules/i18n/locales/generated/da-DK';
@@ -61,6 +62,7 @@ export class I18nService implements OnModuleInit {
       'pseudo-en': pseudoEnMessages,
       'af-ZA': afMessages,
       'ar-SA': arMessages,
+      'bn-BD': bnMessages,
       'ca-ES': caMessages,
       'cs-CZ': csMessages,
       'da-DK': daMessages,

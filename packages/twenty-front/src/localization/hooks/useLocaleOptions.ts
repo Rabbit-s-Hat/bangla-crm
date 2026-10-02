@@ -40,6 +40,7 @@ export const useLocaleOptions = (): LocaleOption[] => {
     'af-ZA': t`Afrikaans`,
     'ar-SA': t`Arabic`,
     'hy-AM': t`Armenian`,
+    'bn-BD': t`Bangla`,
     'ca-ES': t`Catalan`,
     'zh-CN': t`Chinese — Simplified`,
     'zh-TW': t`Chinese — Traditional`,
