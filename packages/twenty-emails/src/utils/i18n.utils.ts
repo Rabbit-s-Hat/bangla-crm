@@ -3,6 +3,7 @@ import { createI18nInstanceFactory } from 'twenty-shared/i18n';
 import { type APP_LOCALES } from 'twenty-shared/translations';
 import { messages as afMessages } from '@/locales/generated/af-ZA';
 import { messages as arMessages } from '@/locales/generated/ar-SA';
+import { messages as bnMessages } from '@/locales/generated/bn-BD';
 import { messages as caMessages } from '@/locales/generated/ca-ES';
 import { messages as csMessages } from '@/locales/generated/cs-CZ';
 import { messages as daMessages } from '@/locales/generated/da-DK';
@@ -41,6 +42,7 @@ const messages: Record<keyof typeof APP_LOCALES, Messages> = {
   'pseudo-en': pseudoEnMessages,
   'af-ZA': afMessages,
   'ar-SA': arMessages,
+  'bn-BD': bnMessages,
   'ca-ES': caMessages,
   'cs-CZ': csMessages,
   'da-DK': daMessages,
