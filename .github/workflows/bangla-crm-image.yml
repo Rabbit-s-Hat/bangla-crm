@@ -1,16 +1,22 @@
 name: Bangla CRM image
 
-# Builds the all-in-one image (server + front end, bn-BD compiled) and pushes it to GHCR.
-# Run manually from the Actions tab, or push a tag like `bangla-v0.1.0`.
-# Upstream Twenty workflows are not meant to run in this fork; this one is self-contained.
+# Builds the all-in-one image (server + front end, bn-BD compiled), smoke-tests it with the customer
+# install package on a real Docker host, and on a release tag publishes the install package zip.
+#   - Manual run (Actions tab -> "Bangla CRM image" -> Run workflow): builds and tests a test tag
+#     such as 0.1.0-rc.1. It never moves :latest and never publishes a release.
+#   - Push a tag `bangla-vX.Y.Z`: builds X.Y.Z (+ :latest for stable versions), tests it, and
+#     publishes the GitHub Release zip.
+# ONE-TIME MANUAL STEP before the first release: make the GHCR package public
+# (github.com/orgs/Rabbit-s-Hat/packages/container/bangla-crm/settings -> Change visibility -> Public).
+# The release job refuses to publish while the image cannot be pulled anonymously.
 
 on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Image tag (e.g. 0.1.0). "latest" is always added too.'
+        description: 'Test image tag, e.g. 0.1.0-rc.1 (does not move "latest")'
         required: true
-        default: 'dev'
+        default: '0.0.0-dev'
   push:
     tags:
       - 'bangla-v*'
@@ -23,25 +29,36 @@ concurrency:
   group: bangla-crm-image-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  IMAGE: ghcr.io/rabbit-s-hat/bangla-crm
+
 jobs:
   build:
     if: github.repository == 'Rabbit-s-Hat/bangla-crm'
     runs-on: ubuntu-latest
     timeout-minutes: 120
+    outputs:
+      tag: ${{ steps.meta.outputs.tag }}
     steps:
       - uses: actions/checkout@v4
 
       - name: Resolve tag
         id: meta
         shell: bash
+        env:
+          INPUT_TAG: ${{ inputs.tag }}
         run: |
-          if [ "${{ github.event_name }}" = "push" ]; then
-            TAG="${GITHUB_REF_NAME#bangla-v}"
-          else
-            TAG="${{ inputs.tag }}"
-          fi
+          set -euo pipefail
+          if [ "$GITHUB_EVENT_NAME" = "push" ]; then TAG="${GITHUB_REF_NAME#bangla-v}"; else TAG="$INPUT_TAG"; fi
+          [[ "$TAG" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.]+)?$ ]] || { echo "Invalid version: $TAG"; exit 1; }
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
-          echo "image=ghcr.io/rabbit-s-hat/bangla-crm" >> "$GITHUB_OUTPUT"
+          {
+            echo "tags<<EOF"
+            echo "$IMAGE:$TAG"
+            # :latest only for stable releases (tag push without a pre-release suffix)
+            if [ "$GITHUB_EVENT_NAME" = "push" ] && [[ "$TAG" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then echo "$IMAGE:latest"; fi
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
 
       # The front-end build needs ~8 GB of Node heap; reclaim runner disk for the image layers.
       - name: Free disk space
@@ -65,12 +82,127 @@ jobs:
           push: true
           build-args: |
             APP_VERSION=${{ steps.meta.outputs.tag }}
-          tags: |
-            ${{ steps.meta.outputs.image }}:${{ steps.meta.outputs.tag }}
-            ${{ steps.meta.outputs.image }}:latest
+          tags: ${{ steps.meta.outputs.tags }}
           labels: |
+            org.opencontainers.image.title=Bangla CRM
             org.opencontainers.image.source=https://github.com/Rabbit-s-Hat/bangla-crm
-            org.opencontainers.image.description=Bangla CRM — a Bangla-first build of Twenty (AGPL-3.0). Source: https://github.com/Rabbit-s-Hat/bangla-crm
-            org.opencontainers.image.licenses=AGPL-3.0
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.version=${{ steps.meta.outputs.tag }}
+            org.opencontainers.image.description=Bangla CRM - a Bangla-first build of Twenty (AGPL-3.0). Source: https://github.com/Rabbit-s-Hat/bangla-crm
+            org.opencontainers.image.licenses=AGPL-3.0-only
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+  # Installs the image with the customer package (install.sh) on a real Docker host and exercises
+  # the everyday commands. Catches packaging mistakes before any customer sees them.
+  smoke-test:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: read
+      packages: read
+    defaults:
+      run:
+        shell: bash
+        working-directory: packages/twenty-docker/bangla-crm
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install with install.sh
+        run: bash install.sh --version "${{ needs.build.outputs.tag }}"
+
+      - name: App answers and serves the Bangla UI
+        run: |
+          set -euo pipefail
+          curl -fsS http://localhost:3000/healthz
+          curl -fsS http://localhost:3000/ | grep -q 'lang="bn"'
+          # Bangla text must be in the front-end build (literal or \u09xx-escaped) and the server catalogue must exist.
+          docker cp "$(docker compose ps -q server):/app/packages/twenty-server/dist" /tmp/dist
+          grep -rlqP '[\x{0980}-\x{09FF}]{3}|(\\u09[0-9a-fA-F]{2}){3}' /tmp/dist/front || { echo "::error::Bangla front-end strings not found in the image"; exit 1; }
+          find /tmp/dist -path '*generated*' -name '*bn-BD*' | grep -q . || { echo "::error::bn-BD server/email catalogue not found in the image"; exit 1; }
+          docker compose ps
+
+      - name: Re-running the installer keeps the secrets
+        run: |
+          set -euo pipefail
+          before="$(grep -E '^(ENCRYPTION_KEY|PG_DATABASE_PASSWORD)=' .env | sha256sum)"
+          bash install.sh
+          after="$(grep -E '^(ENCRYPTION_KEY|PG_DATABASE_PASSWORD)=' .env | sha256sum)"
+          [ "$before" = "$after" ]
+
+      - name: Backup, restore, stop and start
+        run: |
+          set -euo pipefail
+          bash bangla-crm.sh backup
+          b="$(ls -d backups/20*_* | sort | tail -n 1)"
+          test -s "$b/database.dump" && test -d "$b/files" && test -s "$b/env.txt"
+          printf 'RESTORE\n' | bash bangla-crm.sh restore "$b"
+          curl -fsS http://localhost:3000/healthz
+          bash bangla-crm.sh stop
+          bash bangla-crm.sh start
+          curl -fsS http://localhost:3000/healthz
+
+      - name: Logs on failure
+        if: failure()
+        run: docker compose logs --tail 300 || true
+
+  # On a release tag, publish the customer install package as a GitHub Release zip, with TAG in
+  # .env.example pinned to the image built above and source links pinned to this tag (AGPL section 13).
+  package:
+    if: github.repository == 'Rabbit-s-Hat/bangla-crm' && github.event_name == 'push'
+    needs: [build, smoke-test]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Refuse to publish while the image is private
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION="${GITHUB_REF_NAME#bangla-v}"
+          TOKEN="$(curl -sS "https://ghcr.io/token?scope=repository:rabbit-s-hat/bangla-crm:pull" | sed -n 's/.*"token":"\([^"]*\)".*/\1/p' || true)"
+          code="$(curl -s -o /dev/null -w '%{http_code}' -H "Authorization: Bearer $TOKEN" \
+            -H 'Accept: application/vnd.oci.image.index.v1+json, application/vnd.docker.distribution.manifest.v2+json, application/vnd.docker.distribution.manifest.list.v2+json' \
+            "https://ghcr.io/v2/rabbit-s-hat/bangla-crm/manifests/$VERSION")"
+          if [ "$code" != "200" ]; then
+            echo "::error::ghcr.io/rabbit-s-hat/bangla-crm:$VERSION cannot be pulled anonymously (HTTP $code). Make the package public, then re-run this job."
+            exit 1
+          fi
+
+      - name: Build install package
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION="${GITHUB_REF_NAME#bangla-v}"
+          PKG="bangla-crm-$VERSION"
+          SRC="https://github.com/Rabbit-s-Hat/bangla-crm/tree/$GITHUB_REF_NAME"
+          mkdir -p dist
+          cp -a packages/twenty-docker/bangla-crm "dist/$PKG"
+          rm -f "dist/$PKG/.gitattributes" "dist/$PKG/.env"
+          cp LICENSE "dist/$PKG/LICENSE"
+          cp .github/TRADEMARK.md "dist/$PKG/TRADEMARK.md"
+          sed -i "s/^TAG=latest$/TAG=$VERSION/" "dist/$PKG/.env.example"
+          grep -q "^TAG=$VERSION$" "dist/$PKG/.env.example"
+          sed -i "s#https://github.com/Rabbit-s-Hat/bangla-crm>#$SRC>#g" "dist/$PKG/README.md" "dist/$PKG/README.bn.md" "dist/$PKG/NOTICE.md"
+          chmod +x "dist/$PKG"/*.sh
+          (cd dist && zip -r -X "$PKG.zip" "$PKG")
+          echo "PKG=$PKG" >> "$GITHUB_ENV"
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" "dist/$PKG.zip" \
+            --title "Bangla CRM $VERSION" \
+            --notes "Install package for Bangla CRM $VERSION (see README.md / README.bn.md inside the zip). Docker image: ghcr.io/rabbit-s-hat/bangla-crm:$VERSION. Source code: https://github.com/Rabbit-s-Hat/bangla-crm/tree/$GITHUB_REF_NAME (AGPL-3.0)."

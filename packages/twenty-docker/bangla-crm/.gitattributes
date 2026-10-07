@@ -1,0 +1,8 @@
+# Windows launchers need CRLF; everything else LF (so the .sh scripts run on macOS/Linux).
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+*.sh text eol=lf
+Caddyfile text eol=lf
+*.yml text eol=lf
+.env.example text eol=lf
+*.md text eol=lf

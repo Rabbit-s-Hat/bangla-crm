@@ -102,6 +102,8 @@ RUN apk add --no-cache \
 
 COPY ./packages/twenty-docker/twenty/entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
+# Licence text travels with the object code (AGPL-3.0 sections 4 and 6).
+COPY ./LICENSE /app/LICENSE
 WORKDIR /app/packages/twenty-server
 
 ARG APP_VERSION

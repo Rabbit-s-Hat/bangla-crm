@@ -1,0 +1,29 @@
+# Cloud add-on: Caddy in front of Bangla CRM with automatic HTTPS (Let's Encrypt).
+# Loaded automatically when `.env` contains:
+#   COMPOSE_FILE=docker-compose.yml:docker-compose.cloud.yml
+# The app itself stays bound to 127.0.0.1; only Caddy is reachable from the internet (ports 80/443).
+
+services:
+  caddy:
+    image: caddy:2
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      DOMAIN: ${DOMAIN:?DOMAIN is missing from .env}
+      ACME_EMAIL: ${ACME_EMAIL:?ACME_EMAIL is missing from .env}
+      SETUP_GATE: ${SETUP_GATE:-off}
+      SETUP_ALLOW_IP: ${SETUP_ALLOW_IP:-127.0.0.1}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      server:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  caddy-data:
+  caddy-config:
