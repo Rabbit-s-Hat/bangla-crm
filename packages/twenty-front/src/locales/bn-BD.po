@@ -1014,7 +1014,7 @@ msgstr "7 দিন"
 #. js-lingui-id: 43TqJC
 #: src/pages/settings/admin-panel/SettingsAdminNewAiProvider.tsx
 msgid "A display name for this provider"
-msgstr "এই প্রদানকারীর জন্য একটি প্রদর্শনীয় নাম"
+msgstr "এই প্রোভাইডারের জন্য একটি প্রদর্শনীয় নাম"
 
 #. js-lingui-id: keUlu+
 #: src/modules/command-menu-item/engine-command/record/single-record/workflow-versions/components/UseAsDraftWorkflowVersionSingleRecordCommand.tsx
@@ -1497,7 +1497,7 @@ msgstr "কাস্টম এন্ডপয়েন্ট, প্রাইভ
 #: src/modules/settings/admin-panel/ai/components/SettingsAdminAiProviderListCard.tsx
 #: src/modules/settings/admin-panel/ai/components/SettingsAdminAiProviderListCard.tsx
 msgid "Add Custom Provider"
-msgstr "কাস্টম প্রদানকারী যোগ করুন"
+msgstr "কাস্টম প্রোভাইডার যোগ করুন"
 
 #. js-lingui-id: 094J9M
 #: src/modules/activities/calendar/components/CalendarEventComposerFields.tsx
@@ -1733,7 +1733,7 @@ msgstr "সাজান যোগ করুন"
 #: src/modules/settings/security/components/sso/SettingsSsoIdentitiesProvidersListCard.tsx
 #: src/modules/settings/security/components/sso/SettingsSsoIdentitiesProvidersListCardWrapper.tsx
 msgid "Add SSO Identity Provider"
-msgstr "SSO পরিচয় প্রদানকারী যোগ করুন"
+msgstr "SSO আইডেন্টিটি প্রোভাইডার যোগ করুন"
 
 #. js-lingui-id: 6Tl23V
 #: src/pages/settings/ai/components/SettingsAgentEvalsTab.tsx
@@ -1773,7 +1773,7 @@ msgstr "LM Studio-এর ইনস্টল লিংক দিয়ে Twenty 
 #. js-lingui-id: BTFMKE
 #: src/pages/settings/communications/SettingsWorkspaceCommunicationGroupChannelDetail.tsx
 msgid "Add these records at your DNS provider. Twenty checks them automatically."
-msgstr "আপনার DNS প্রদানকারীতে এই রেকর্ডগুলো যোগ করুন। Twenty স্বয়ংক্রিয়ভাবে তাদের পরীক্ষা করে।"
+msgstr "আপনার DNS প্রোভাইডারতে এই রেকর্ডগুলো যোগ করুন। Twenty স্বয়ংক্রিয়ভাবে তাদের পরীক্ষা করে।"
 
 #. js-lingui-id: 5+ttxv
 #: src/modules/settings/accounts/components/SettingsAccountsBlocklistInput.tsx
@@ -4245,7 +4245,7 @@ msgstr "একমাত্র ভিউ মুছে ফেলা যায় �
 #: src/pages/settings/members/SettingsWorkspaceMember.tsx
 #: src/pages/settings/members/SettingsWorkspaceMember.tsx
 msgid "Cannot impersonate selected user"
-msgstr "নির্বাচিত ব্যবহারকারীকে অভিনয় করা যায় না"
+msgstr "নির্বাচিত ব্যবহারকারী হিসেবে লগ ইন করা যায় না"
 
 #. js-lingui-id: lbmcW3
 #: src/modules/navigation-menu-item/edit/hooks/useNavigationMenuItemAddOptions.tsx
@@ -5245,7 +5245,7 @@ msgstr "Cline-এ Twenty MCP সার্ভার ম্যানুয়া�
 #. js-lingui-id: qA9AGQ
 #: src/modules/settings/domains/components/SettingsDomainRecords.tsx
 msgid "Configure these DNS records with your domain provider"
-msgstr "আপনার ডোমেইন প্রদানকারীর সাথে এই DNS রেকর্ডগুলি কনফিগার করুন"
+msgstr "আপনার ডোমেইন প্রোভাইডারের সাথে এই DNS রেকর্ডগুলি কনফিগার করুন"
 
 #. js-lingui-id: BgaUQT
 #: src/modules/page-layout/widgets/fields/components/FieldsWidget.tsx
@@ -5409,12 +5409,12 @@ msgstr "সংযোগ পাওয়া যায়নি"
 #. js-lingui-id: 54WNJ6
 #: src/modules/metadata-error-handler/hooks/useMetadataErrorHandler.ts
 msgid "connection provider"
-msgstr "সংযোগ প্রদানকারী"
+msgstr "সংযোগ প্রোভাইডার"
 
 #. js-lingui-id: sbBqyy
 #: src/pages/settings/applications/tabs/SettingsApplicationDetailContentTab.tsx
 msgid "Connection providers"
-msgstr "সংযোগ প্রদানকারীগণ"
+msgstr "সংযোগ প্রোভাইডারগণ"
 
 #. js-lingui-id: W4Kgwq
 #: src/modules/settings/accounts/components/SettingsAccountsRowDropdownMenu.tsx
@@ -6574,32 +6574,32 @@ msgstr "কাস্টম অবজেক্টসমূহ"
 #. js-lingui-id: sakSHW
 #: src/pages/settings/admin-panel/SettingsAdminNewAiProvider.tsx
 msgid "Custom provider"
-msgstr "কাস্টম প্রদানকর্তা"
+msgstr "কাস্টম প্রোভাইডার"
 
 #. js-lingui-id: Gh6L3r
 #: src/modules/settings/admin-panel/ai/components/SettingsAdminAI.tsx
 msgid "Custom Providers"
-msgstr "কাস্টম প্রদানকর্তাসমূহ"
+msgstr "কাস্টম প্রোভাইডারসমূহ"
 
 #. js-lingui-id: 79QPp0
 #. placeholder {0}: access.seatThreshold
 #: src/modules/settings/admin-panel/ai/hooks/useCustomAiProviderAccess.ts
 msgid "Custom providers are complimentary for organizations of up to {0} seats. Above that, an Organization plan is required."
-msgstr "কাস্টম প্রদানকর্তাগুলি {0} সিটির জন্য সংস্থাগুলিতে উপস্থিত অতিনিয়ত উপলব্ধ। তার ওপরে, একটি সংস্থা পরিকল্পনা প্রয়োজন।"
+msgstr "কাস্টম প্রোভাইডারগুলি {0} সিটির জন্য সংস্থাগুলিতে উপস্থিত অতিনিয়ত উপলব্ধ। তার ওপরে, একটি সংস্থা পরিকল্পনা প্রয়োজন।"
 
 #. js-lingui-id: dDp+uz
 #. placeholder {0}: access.seatThreshold
 #. placeholder {1}: access.seatCount
 #: src/modules/settings/admin-panel/ai/hooks/useCustomAiProviderAccess.ts
 msgid "Custom providers are complimentary for organizations of up to {0} seats. This instance has {1} seats, so an Organization plan is required."
-msgstr "কাস্টম প্রদানকর্তাগুলি {0} সিটির জন্য সংস্থাগুলিতে উপস্থিত অতিনিয়ত উপলব্ধ। এই উদাহরণে {1} সিটি রয়েছে, তাই একটি সংস্থা পরিকল্পনা প্রয়োজন।"
+msgstr "কাস্টম প্রোভাইডারগুলি {0} সিটির জন্য সংস্থাগুলিতে উপস্থিত অতিনিয়ত উপলব্ধ। এই উদাহরণে {1} সিটি রয়েছে, তাই একটি সংস্থা পরিকল্পনা প্রয়োজন।"
 
 #. js-lingui-id: FjmF6O
 #. placeholder {0}: access.seatThreshold
 #. placeholder {1}: access.seatCount
 #: src/modules/settings/admin-panel/ai/hooks/useCustomAiProviderAccess.ts
 msgid "Custom providers are complimentary up to {0} seats. This instance has {1}. Upgrade to add more."
-msgstr "কাস্টম প্রদানকর্তাগুলি {0} সিটি পর্যন্ত উপস্থিত। এই উদাহরণে {1}। আরও যোগ করতে আপগ্রেড করুন।"
+msgstr "কাস্টম প্রোভাইডারগুলি {0} সিটি পর্যন্ত উপস্থিত। এই উদাহরণে {1}। আরও যোগ করতে আপগ্রেড করুন।"
 
 #. js-lingui-id: BjGDEB
 #: src/modules/object-record/object-options-dropdown/components/ObjectOptionsDropdownCustomView.tsx
@@ -7646,7 +7646,7 @@ msgstr "দিকনির্দেশনা"
 #. js-lingui-id: XDeNvP
 #: src/modules/settings/admin-panel/components/SettingsAdminServerAdminAccess.tsx
 msgid "Disable impersonation"
-msgstr "অভিনয় অক্ষম করুন"
+msgstr "ব্যবহারকারী হিসেবে লগ ইন বন্ধ করুন"
 
 #. js-lingui-id: E/QGRL
 #: src/modules/page-layout/components/PageLayoutTabListNewTabDropdownContent.tsx
@@ -8573,7 +8573,7 @@ msgstr "ইমেইল প্রচার এবং তালিকা এব�
 #. js-lingui-id: Tt0V8j
 #: src/modules/settings/admin-panel/components/SettingsAdminServerAdminAccess.tsx
 msgid "Enable impersonation"
-msgstr "অভিনয় সক্ষম করুন"
+msgstr "ব্যবহারকারী হিসেবে লগ ইন চালু করুন"
 
 #. js-lingui-id: gZo0V9
 #: src/modules/ai/components/SettingsAgentModelCapabilities.tsx
@@ -11576,22 +11576,22 @@ msgstr "imap.example.com"
 #: src/pages/settings/admin-panel/SettingsAdminUserDetail.tsx
 #: src/pages/settings/admin-panel/SettingsAdminWorkspaceDetail.tsx
 msgid "Impersonate"
-msgstr "ছদ্মবেশ ধারণ"
+msgstr "ব্যবহারকারী হিসেবে লগ ইন"
 
 #. js-lingui-id: l0JGUk
 #: src/modules/settings/billing/constants/SettingsBillingPlanComparisonRows.ts
 msgid "Impersonate users"
-msgstr "ব্যবহারকারীর ছদ্মবেশ ধারণ করুন"
+msgstr "ব্যবহারকারী হিসেবে লগ ইন করা"
 
 #. js-lingui-id: n3ohBy
 #: src/modules/settings/roles/role-permissions/permission-flags/hooks/useSettingsRolePermissionFlagConfig.ts
 msgid "Impersonate workspace users"
-msgstr "ওয়ার্কস্পেস ব্যবহারকারীর ছদ্মবেশ ধারণ করুন"
+msgstr "ওয়ার্কস্পেসের ব্যবহারকারী হিসেবে লগ ইন করা"
 
 #. js-lingui-id: 1ZMDWV
 #: src/modules/settings/admin-panel/components/SettingsAdminServerAdminAccess.tsx
 msgid "impersonation"
-msgstr "ছদ্মবেশ ধারণ"
+msgstr "ব্যবহারকারী হিসেবে লগ ইন"
 
 #. js-lingui-id: gFoGWm
 #: src/modules/log-console/constants/LogConsoleSecurityFilterFields.tsx
@@ -11599,32 +11599,32 @@ msgstr "ছদ্মবেশ ধারণ"
 #: src/modules/settings/admin-panel/components/SettingsAdminServerAdmins.tsx
 #: src/modules/settings/profile/devices/components/SettingsDeviceSessionRowRightComponent.tsx
 msgid "Impersonation"
-msgstr "ছদ্মবেশ ধারণ"
+msgstr "ব্যবহারকারী হিসেবে লগ ইন"
 
 #. js-lingui-id: 2Ay+wL
 #: src/modules/log-console/utils/getLogConsoleSecurityEvent.ts
 msgid "Impersonation ended"
-msgstr "ছদ্মবেশ ধারণ শেষ হয়েছে"
+msgstr "ব্যবহারকারী হিসেবে লগ ইন শেষ হয়েছে"
 
 #. js-lingui-id: 6C6HwH
 #: src/modules/log-console/utils/getLogConsoleSecurityEvent.ts
 msgid "Impersonation failed"
-msgstr "ছদ্মবেশ ধারণ ব্যর্থ হয়েছে"
+msgstr "ব্যবহারকারী হিসেবে লগ ইন ব্যর্থ হয়েছে"
 
 #. js-lingui-id: yImXof
 #: src/pages/settings/admin-panel/SettingsAdminUserDetail.tsx
 msgid "Impersonation is disabled for this workspace"
-msgstr "এই ওয়ার্কস্পেসে ছদ্মবেশ ধারণ নিষ্ক্রিয় করা আছে"
+msgstr "এই ওয়ার্কস্পেসে ব্যবহারকারী হিসেবে লগ ইন বন্ধ আছে"
 
 #. js-lingui-id: Qzg4zX
 #: src/modules/log-console/utils/getLogConsoleSecurityEvent.ts
 msgid "Impersonation requested"
-msgstr "ছদ্মবেশ ধারণের অনুরোধ করা হয়েছে"
+msgstr "ব্যবহারকারী হিসেবে লগ ইনের অনুরোধ করা হয়েছে"
 
 #. js-lingui-id: 5LAZwq
 #: src/modules/log-console/utils/getLogConsoleSecurityEvent.ts
 msgid "Impersonation started"
-msgstr "ছদ্মবেশ ধারণ শুরু হয়েছে"
+msgstr "ব্যবহারকারী হিসেবে লগ ইন শুরু হয়েছে"
 
 #. js-lingui-id: yHueLx
 #: src/modules/settings/billing/constants/SettingsBillingPlanComparisonRows.ts
@@ -12558,12 +12558,12 @@ msgstr "গত ১ ঘণ্টা (পুরোনো → নতুন)"
 #. js-lingui-id: YoKFgq
 #: src/modules/settings/admin-panel/components/SettingsAdminGeneral.tsx
 msgid "Last 10 users created. Click to impersonate."
-msgstr "সর্বশেষ তৈরি ১০ জন ব্যবহারকারী। ছদ্মবেশ ধারণ করতে ক্লিক করুন।"
+msgstr "সর্বশেষ তৈরি ১০ জন ব্যবহারকারী। কোনো ব্যবহারকারী হিসেবে লগ ইন করতে ক্লিক করুন।"
 
 #. js-lingui-id: sgqwjE
 #: src/modules/settings/admin-panel/components/SettingsAdminGeneral.tsx
 msgid "Last 10 users created. Click to manage feature flags or impersonate."
-msgstr "সর্বশেষ তৈরি ১০ জন ব্যবহারকারী। ফিচার ফ্ল্যাগ পরিচালনা বা ছদ্মবেশ ধারণ করতে ক্লিক করুন।"
+msgstr "সর্বশেষ তৈরি ১০ জন ব্যবহারকারী। ফিচার ফ্ল্যাগ পরিচালনা করতে বা ব্যবহারকারী হিসেবে লগ ইন করতে ক্লিক করুন।"
 
 #. js-lingui-id: XUlP/Y
 #: src/modules/settings/admin-panel/health-status/constants/WorkerQueueMetricsSelectOptions.ts
@@ -14034,7 +14034,7 @@ msgstr "মডেলসমূহ"
 #. js-lingui-id: tNFUgB
 #: src/pages/settings/admin-panel/SettingsAdminAiProviderDetail.tsx
 msgid "Models for this provider. Toggle to enable or disable."
-msgstr "এই প্রদানকারীর মডেলসমূহ। চালু বা বন্ধ করতে টগল করুন।"
+msgstr "এই প্রোভাইডারের মডেলসমূহ। চালু বা বন্ধ করতে টগল করুন।"
 
 #. js-lingui-id: hty0d5
 #: src/pages/settings/profile/appearance/components/DateTimeSettingsCalendarStartDaySelect.tsx
@@ -14459,7 +14459,7 @@ msgstr "নতুন AI চ্যাট"
 #: src/pages/settings/admin-panel/SettingsAdminNewAiProvider.tsx
 #: src/pages/settings/admin-panel/SettingsAdminNewAiProvider.tsx
 msgid "New AI Provider"
-msgstr "নতুন AI প্রদানকারী"
+msgstr "নতুন AI প্রোভাইডার"
 
 #. js-lingui-id: 2qr/61
 #: src/pages/settings/security/SettingsSecurityApprovedAccessDomain.tsx
@@ -14604,7 +14604,7 @@ msgstr "নতুন SSO কনফিগারেশন"
 #. js-lingui-id: C7WtCv
 #: src/pages/settings/security/SettingsSecuritySsoIdentifyProvider.tsx
 msgid "New SSO provider"
-msgstr "নতুন SSO প্রদানকারী"
+msgstr "নতুন SSO প্রোভাইডার"
 
 #. js-lingui-id: 3YvS+c
 #: src/modules/page-layout/components/PageLayoutTabListNewTabDropdownContent.tsx
@@ -14794,7 +14794,7 @@ msgstr "এই ব্যবহারকারীর জন্য কোনো AI
 #: src/modules/ai/hooks/useAgentChat.ts
 #: src/pages/settings/ai/components/SettingsAgentSettingsTab.tsx
 msgid "No AI provider is configured on this instance."
-msgstr "এই ইনস্ট্যান্সে কোনো AI প্রদানকারী কনফিগার করা নেই।"
+msgstr "এই ইনস্ট্যান্সে কোনো AI প্রোভাইডার কনফিগার করা নেই।"
 
 #. js-lingui-id: 42kV9p
 #: src/modules/settings/admin-panel/ai/components/SettingsAdminAI.tsx
@@ -20776,7 +20776,7 @@ msgstr "শুরুর সময়"
 #: src/modules/settings/data-model/fields/forms/address/constants/DefaultSelectionAddressWithMessages.ts
 #: src/modules/ui/field/input/components/AddressInput.tsx
 msgid "State"
-msgstr "রাজ্য"
+msgstr "বিভাগ/রাজ্য"
 
 #. js-lingui-id: EPFwS4
 #: src/modules/page-layout/widgets/components/RecordPageAddWidgetSection.tsx
@@ -20844,7 +20844,7 @@ msgstr "ডিক্টেশন থামান"
 #. js-lingui-id: I8EmDx
 #: src/modules/information-banner/components/impersonate/InformationBannerIsImpersonating.tsx
 msgid "Stop impersonating"
-msgstr "ছদ্মবেশ ধারণ বন্ধ করুন"
+msgstr "নিজের অ্যাকাউন্টে ফিরে যান"
 
 #. js-lingui-id: 5e5VJg
 #: src/modules/front-components/media-session/components/FrontComponentMediaSessionTooltipRow.tsx
@@ -21494,7 +21494,7 @@ msgstr "যে ঠিকানা থেকে আপনার ওয়ার�
 #. js-lingui-id: oVH0Mt
 #: src/pages/settings/admin-panel/SettingsAdminNewAiProvider.tsx
 msgid "The API endpoint for your OpenAI-compatible provider"
-msgstr "আপনার OpenAI-সামঞ্জস্যপূর্ণ প্রদানকারীর API এন্ডপয়েন্ট"
+msgstr "আপনার OpenAI-সামঞ্জস্যপূর্ণ প্রোভাইডারের API এন্ডপয়েন্ট"
 
 #. js-lingui-id: qjNojw
 #: src/pages/settings/admin-panel/SettingsAdminNewAiProvider.tsx
@@ -21619,7 +21619,7 @@ msgstr "প্রতিটি ওয়ার্কস্পেসের জন�
 #. js-lingui-id: HiI1Lo
 #: src/pages/settings/admin-panel/SettingsAdminNewAiModel.tsx
 msgid "The model identifier used by the provider API"
-msgstr "প্রদানকারীর API-তে ব্যবহৃত মডেল আইডেন্টিফায়ার"
+msgstr "প্রোভাইডারের API-তে ব্যবহৃত মডেল আইডেন্টিফায়ার"
 
 #. js-lingui-id: 3o2gOg
 #: src/pages/settings/ai/components/SettingsAiModelTiersPreview.tsx
@@ -22054,7 +22054,7 @@ msgstr "এই মিটিং রেকর্ড করা হয়নি।"
 #. js-lingui-id: Wuvfgw
 #: src/pages/settings/admin-panel/SettingsAdminAiProviderDetail.tsx
 msgid "This model will be removed from the provider. You can re-add it later."
-msgstr "এই মডেল প্রদানকারী থেকে সরিয়ে ফেলা হবে। আপনি পরে এটি আবার যোগ করতে পারবেন।"
+msgstr "এই মডেল প্রোভাইডার থেকে সরিয়ে ফেলা হবে। আপনি পরে এটি আবার যোগ করতে পারবেন।"
 
 #. js-lingui-id: oW3yYY
 #: src/modules/settings/billing/constants/UsageLimitPeriodSpanLabels.ts
@@ -22099,7 +22099,7 @@ msgstr "এটি {accountHandle} এবং এর সব সিঙ্ক কর
 #. js-lingui-id: R/PuIn
 #: src/pages/settings/admin-panel/SettingsAdminNewAiProvider.tsx
 msgid "This provider doesn't have a native SDK yet — it will use OpenAI-compatible mode. Need native support? Reach out to us."
-msgstr "এই প্রদানকারীর এখনও নেটিভ SDK নেই — এটি OpenAI-সামঞ্জস্যপূর্ণ মোড ব্যবহার করবে। নেটিভ সমর্থন দরকার? আমাদের সাথে যোগাযোগ করুন।"
+msgstr "এই প্রোভাইডারের এখনও নেটিভ SDK নেই — এটি OpenAI-সামঞ্জস্যপূর্ণ মোড ব্যবহার করবে। নেটিভ সমর্থন দরকার? আমাদের সাথে যোগাযোগ করুন।"
 
 #. js-lingui-id: dWJTyU
 #: src/modules/information-banner/components/deleted-record/InformationBannerDeletedRecord.tsx
@@ -22200,7 +22200,7 @@ msgstr "এটি এই অ্যাপ্লিকেশন থেকে {conn
 #. js-lingui-id: 0+L84I
 #: src/pages/settings/admin-panel/SettingsAdminAiProviderDetail.tsx
 msgid "This will disconnect all models from this provider. Models will no longer be available until a new provider is configured."
-msgstr "এটি এই প্রদানকারী থেকে সব মডেলের সংযোগ বিচ্ছিন্ন করবে। নতুন প্রদানকারী কনফিগার না করা পর্যন্ত মডেলগুলো আর উপলব্ধ থাকবে না।"
+msgstr "এটি এই প্রোভাইডার থেকে সব মডেলের সংযোগ বিচ্ছিন্ন করবে। নতুন প্রোভাইডার কনফিগার না করা পর্যন্ত মডেলগুলো আর উপলব্ধ থাকবে না।"
 
 #. js-lingui-id: XZWXeK
 #. placeholder {0}: pendingChange?.description ?? ''
@@ -22352,7 +22352,7 @@ msgstr "শিরোনাম"
 #: src/modules/workflow/workflow-steps/workflow-actions/components/WorkflowEditActionEmailBase.tsx
 #: src/modules/workflow/workflow-steps/workflow-actions/components/WorkflowRunStepLogsEmailDetail.tsx
 msgid "To"
-msgstr "প্রতি"
+msgstr "প্রাপক"
 
 #. js-lingui-id: ecUA8p
 #: src/modules/ai/utils/groupThreadsByDate.ts
@@ -24370,17 +24370,17 @@ msgstr "Warp"
 #. js-lingui-id: zFSQY3
 #: src/modules/activities/timeline-activities/rows/main-object/components/EventRowMainObject.tsx
 msgid "was created by"
-msgstr "তৈরি করেছেন"
+msgstr "তৈরি করেছেন:"
 
 #. js-lingui-id: uHpu1c
 #: src/modules/activities/timeline-activities/rows/main-object/components/EventRowMainObject.tsx
 msgid "was deleted by"
-msgstr "মুছে ফেলেছেন"
+msgstr "মুছে ফেলেছেন:"
 
 #. js-lingui-id: S0enzB
 #: src/modules/activities/timeline-activities/rows/main-object/components/EventRowMainObject.tsx
 msgid "was restored by"
-msgstr "পুনরুদ্ধার করেছেন"
+msgstr "পুনরুদ্ধার করেছেন:"
 
 #. js-lingui-id: 0WPnTI
 #: src/pages/settings/ai/SettingsAI.tsx
@@ -24494,7 +24494,7 @@ msgstr "ডোমেইনের মালিকানা যাচাই কর
 #. js-lingui-id: OAShZP
 #: src/pages/onboarding/PaymentSuccess.tsx
 msgid "We're still waiting for a confirmation from our payment provider (Stripe). Please refresh in a few seconds."
-msgstr "আমরা এখনও আমাদের পেমেন্ট প্রদানকারীর (Stripe) নিশ্চিতকরণের অপেক্ষায় আছি। অনুগ্রহ করে কয়েক সেকেন্ড পরে রিফ্রেশ করুন।"
+msgstr "আমরা এখনও আমাদের পেমেন্ট প্রোভাইডারের (Stripe) নিশ্চিতকরণের অপেক্ষায় আছি। অনুগ্রহ করে কয়েক সেকেন্ড পরে রিফ্রেশ করুন।"
 
 #. js-lingui-id: jiam3h
 #: src/pages/onboarding/PaymentSuccess.tsx
@@ -25216,7 +25216,7 @@ msgstr "আপনি ২টি বা তার বেশি ওয়ার্�
 #: src/modules/settings/admin-panel/hooks/useHandleImpersonate.ts
 #: src/pages/settings/members/SettingsWorkspaceMember.tsx
 msgid "You cannot impersonate your own account"
-msgstr "আপনি নিজের অ্যাকাউন্টের ছদ্মবেশ ধারণ করতে পারবেন না"
+msgstr "নিজের অ্যাকাউন্টের জন্য ব্যবহারকারী হিসেবে লগ ইন সুবিধা ব্যবহার করা যায় না"
 
 #. js-lingui-id: eqUj2Z
 #: src/modules/page-layout/widgets/components/PageLayoutWidgetForbiddenDisplay.tsx
@@ -25404,7 +25404,7 @@ msgstr "আপনার প্রিমিয়াম ফিচার {cancelAt
 #. js-lingui-id: MxZ8eH
 #: src/pages/settings/admin-panel/SettingsAdminNewAiProvider.tsx
 msgid "Your provider API key for authentication"
-msgstr "প্রমাণীকরণের জন্য আপনার প্রদানকারীর API কী"
+msgstr "প্রমাণীকরণের জন্য আপনার প্রোভাইডারের API কী"
 
 #. js-lingui-id: H0ItDq
 #. placeholder {0}: getBeautifiedRenewDate()

@@ -150,7 +150,7 @@ msgstr "আপনি যদি কখনো Twenty আবার ব্যবহ�
 #. js-lingui-explicit-id
 #: src/emails/server-admin-access-changed.email.tsx
 msgid "Impersonation: {impersonateStatus}"
-msgstr "ব্যবহারকারীর পরিচয়ে প্রবেশ: {impersonateStatus}"
+msgstr "ব্যবহারকারী হিসেবে লগ ইন: {impersonateStatus}"
 
 #. js-lingui-explicit-id
 #: src/components/WhatIsTwenty.tsx
@@ -191,7 +191,7 @@ msgstr "পাসওয়ার্ড আপডেট করা হয়েছ
 #. js-lingui-explicit-id
 #: src/emails/warn-suspended-workspace.email.tsx
 msgid "Reactivate it within the next {remainingDays} {dayOrDays} and you'll pick up exactly where you left off, with every record, view and setting right where you left it."
-msgstr "আগামী {remainingDays} {dayOrDays}-এর মধ্যে এটি পুনরায় সক্রিয় করুন, তাহলে আপনি ঠিক যেখানে ছেড়েছিলেন সেখান থেকেই শুরু করতে পারবেন — প্রতিটি রেকর্ড, ভিউ ও সেটিংস আগের মতোই থাকবে।"
+msgstr "আগামী {remainingDays} দিনের মধ্যে এটি পুনরায় সক্রিয় করুন, তাহলে যেখানে থেমেছিলেন ঠিক সেখান থেকেই আবার শুরু করতে পারবেন — প্রতিটি রেকর্ড, ভিউ ও সেটিং যেমন ছিল তেমনই থাকবে।"
 
 #. js-lingui-explicit-id
 #: src/emails/warn-suspended-workspace.email.tsx
