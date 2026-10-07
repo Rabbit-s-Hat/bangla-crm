@@ -5,6 +5,7 @@ import { useWorkspaceBypass } from '@/auth/sign-in-up/hooks/useWorkspaceBypass';
 import { getTwentyWebsiteUrl } from '@/auth/utils/getTwentyWebsiteUrl';
 import { useIsCurrentLocationOnAWorkspace } from '@/domain-manager/hooks/useIsCurrentLocationOnAWorkspace';
 import { ONBOARDING_CONTENT_BLOCK_WIDTH } from '@/onboarding/constants/OnboardingContentBlockWidth';
+import { PRODUCT_NAME } from 'twenty-shared/translations';
 import { themeCssVariables } from 'twenty-ui/theme';
 
 const StyledCopyContainer = styled.div`
@@ -73,7 +74,7 @@ export const FooterNote = ({
   if (!isOnAWorkspace) {
     return (
       <StyledCopyContainer>
-        <Trans>By using Twenty, you agree to the</Trans>{' '}
+        <Trans>By using {PRODUCT_NAME}, you agree to the</Trans>{' '}
         <a
           href={getTwentyWebsiteUrl(i18n.locale, 'terms')}
           target="_blank"

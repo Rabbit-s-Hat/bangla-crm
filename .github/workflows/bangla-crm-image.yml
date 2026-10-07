@@ -122,7 +122,9 @@ jobs:
         run: |
           set -euo pipefail
           curl -fsS http://localhost:3000/healthz
-          curl -fsS http://localhost:3000/ | grep -q 'lang="bn"'
+          # The server only serves the app document to browser-like requests (Accept: text/html).
+          curl -fsS -H 'Accept: text/html' http://localhost:3000/ | grep -q 'lang="bn"'
+          curl -fsS -H 'Accept: text/html' http://localhost:3000/ | grep -q '<title>Bangla CRM</title>'
           # Bangla text must be in the front-end build (literal or \u09xx-escaped) and the server catalogue must exist.
           docker cp "$(docker compose ps -q server):/app/packages/twenty-server/dist" /tmp/dist
           grep -rlqP '[\x{0980}-\x{09FF}]{3}|(\\u09[0-9a-fA-F]{2}){3}' /tmp/dist/front || { echo "::error::Bangla front-end strings not found in the image"; exit 1; }

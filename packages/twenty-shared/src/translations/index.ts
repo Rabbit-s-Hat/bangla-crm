@@ -9,6 +9,7 @@
 
 export type { AppLocale } from './constants/AppLocales';
 export { APP_LOCALES, DEFAULT_APP_LOCALE } from './constants/AppLocales';
+export { PRODUCT_NAME } from './constants/ProductName';
 export { SOURCE_LOCALE } from './constants/SourceLocale';
 export type { TextDirection } from './types/TextDirection';
 export { getLocaleTextDirection } from './utils/getLocaleTextDirection';

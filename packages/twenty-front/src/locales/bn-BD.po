@@ -1740,40 +1740,40 @@ msgstr "SSO আইডেন্টিটি প্রোভাইডার যো
 msgid "Add test input for evaluation (e.g., \"Find all customers in NY\")"
 msgstr "মূল্যায়নের জন্য পরীক্ষণ ইনপুট যোগ করুন (যেমি: \"Find all customers in NY\")"
 
-#. js-lingui-id: FKGcEL
+#. js-lingui-id: LKHif9
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
-msgid "Add the Twenty MCP server as a remote context server in Zed."
-msgstr "Zed-এ দূরবর্তী প্রেক্ষাপট সার্ভার হিসেবে Twenty MCP সার্ভার যোগ করুন।"
+msgid "Add the {PRODUCT_NAME} MCP server as a remote context server in Zed."
+msgstr "Zed-এ দূরবর্তী প্রেক্ষাপট সার্ভার হিসেবে {PRODUCT_NAME} MCP সার্ভার যোগ করুন।"
 
-#. js-lingui-id: iA2nHX
+#. js-lingui-id: aBcUUR
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
-msgid "Add the Twenty MCP server from Augment Code settings."
-msgstr "Augment Code সেটিংস থেকে Twenty MCP সার্ভার যোগ করুন।"
+msgid "Add the {PRODUCT_NAME} MCP server from Augment Code settings."
+msgstr "Augment Code সেটিংস থেকে {PRODUCT_NAME} MCP সার্ভার যোগ করুন।"
 
-#. js-lingui-id: l+NzAk
+#. js-lingui-id: XhAdby
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
-msgid "Add the Twenty MCP server from Raycast's MCP commands or settings."
-msgstr "Raycast-এর MCP কমান্ড বা সেটিংস থেকে Twenty MCP সার্ভার যোগ করুন।"
+msgid "Add the {PRODUCT_NAME} MCP server from Raycast's MCP commands or settings."
+msgstr "Raycast-এর MCP কমান্ড বা সেটিংস থেকে {PRODUCT_NAME} MCP সার্ভার যোগ করুন।"
 
-#. js-lingui-id: j6G/yI
+#. js-lingui-id: /IRxOL
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
-msgid "Add the Twenty MCP server in Gemini CLI settings."
-msgstr "Gemini CLI সেটিংসে Twenty MCP সার্ভার যোগ করুন।"
+msgid "Add the {PRODUCT_NAME} MCP server in Gemini CLI settings."
+msgstr "Gemini CLI সেটিংসে {PRODUCT_NAME} MCP সার্ভার যোগ করুন।"
 
-#. js-lingui-id: /OyhlM
+#. js-lingui-id: JC7baT
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
-msgid "Add the Twenty MCP server to your LibreChat configuration file."
-msgstr "LibreChat কনফিগারেশন ফাইলে Twenty MCP সার্ভার যোগ করুন।"
+msgid "Add the {PRODUCT_NAME} MCP server to your LibreChat configuration file."
+msgstr "LibreChat কনফিগারেশন ফাইলে {PRODUCT_NAME} MCP সার্ভার যোগ করুন।"
 
-#. js-lingui-id: K0DXoj
+#. js-lingui-id: 0PPJyl
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
-msgid "Add the Twenty remote server with LM Studio's install link."
-msgstr "LM Studio-এর ইনস্টল লিংক দিয়ে Twenty রিমোট সার্ভার যোগ করুন।"
+msgid "Add the {PRODUCT_NAME} remote server with LM Studio's install link."
+msgstr "LM Studio-এর ইনস্টল লিংক দিয়ে {PRODUCT_NAME} রিমোট সার্ভার যোগ করুন।"
 
-#. js-lingui-id: BTFMKE
+#. js-lingui-id: A9wDk/
 #: src/pages/settings/communications/SettingsWorkspaceCommunicationGroupChannelDetail.tsx
-msgid "Add these records at your DNS provider. Twenty checks them automatically."
-msgstr "আপনার DNS প্রোভাইডারতে এই রেকর্ডগুলো যোগ করুন। Twenty স্বয়ংক্রিয়ভাবে তাদের পরীক্ষা করে।"
+msgid "Add these records at your DNS provider. {PRODUCT_NAME} checks them automatically."
+msgstr "আপনার DNS প্রোভাইডারতে এই রেকর্ডগুলো যোগ করুন। {PRODUCT_NAME} স্বয়ংক্রিয়ভাবে তাদের পরীক্ষা করে।"
 
 #. js-lingui-id: 5+ttxv
 #: src/modules/settings/accounts/components/SettingsAccountsBlocklistInput.tsx
@@ -1790,10 +1790,10 @@ msgstr "পছন্দের তালিকায় যোগ করুন"
 msgid "Add topic"
 msgstr "বিষয় যোগ করুন"
 
-#. js-lingui-id: 4D/zWv
+#. js-lingui-id: gG62tT
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
-msgid "Add Twenty as a Streamable HTTP extension in Goose."
-msgstr "Goose-এ স্ট্রিমেবল HTTP এক্সটেনশন হিসেবে Twenty যোগ করুন।"
+msgid "Add {PRODUCT_NAME} as a Streamable HTTP extension in Goose."
+msgstr "Goose-এ স্ট্রিমেবল HTTP এক্সটেনশন হিসেবে {PRODUCT_NAME} যোগ করুন।"
 
 #. js-lingui-id: XnwceV
 #: src/pages/settings/applications/components/SettingsApplicationRegistrationRedirectURIsInput.tsx
@@ -3465,10 +3465,10 @@ msgstr "স্বয়ংক্রিয়ভাবে ইমেইল পা�
 msgid "Automatically install this app on every newly created workspace"
 msgstr "স্বয়ংক্রিয়ভাবে এই অ্যাপটি প্রতিটি নতুন তৈরি করা ওয়ার্কস্পেসে ইনস্টল করুন।"
 
-#. js-lingui-id: MHsVk5
+#. js-lingui-id: uqzb2c
 #: src/pages/settings/ai/components/SettingsAiModelTiersPreview.tsx
-msgid "Automatically selected by Twenty for this mode."
-msgstr "Twenty এই মোডের জন্য স্বয়ংক্রিয়ভাবে নির্বাচিত।"
+msgid "Automatically selected by {PRODUCT_NAME} for this mode."
+msgstr "{PRODUCT_NAME} এই মোডের জন্য স্বয়ংক্রিয়ভাবে নির্বাচিত।"
 
 #. js-lingui-id: XFGV21
 #: src/pages/settings/applications/tabs/SettingsApplicationAutoUpdateSection.tsx
@@ -3885,10 +3885,10 @@ msgstr "বাটন"
 msgid "by {author}"
 msgstr "{author} দ্বারা"
 
-#. js-lingui-id: 8Pfllj
+#. js-lingui-id: SOwrZz
 #: src/modules/auth/sign-in-up/components/FooterNote.tsx
-msgid "By using Twenty, you agree to the"
-msgstr "Twenty ব্যবহার করে আপনি নিম্নলিখিতের সাথে সম্মত হচ্ছেন"
+msgid "By using {PRODUCT_NAME}, you agree to the"
+msgstr "{PRODUCT_NAME} ব্যবহার করে আপনি নিম্নলিখিতের সাথে সম্মত হচ্ছেন"
 
 #. js-lingui-id: Yx41df
 #: src/modules/auth/sign-in-up/components/FooterNote.tsx
@@ -5232,15 +5232,15 @@ msgstr "Warp-এর এজেন্ট সেটিংস ব্যবহার 
 msgid "Configure the remote server in Amazon Q Developer's MCP settings."
 msgstr "Amazon Q Developer-এর MCP সেটিংসে রিমোট সার্ভার কনফিগার করুন।"
 
-#. js-lingui-id: g1/8jH
+#. js-lingui-id: eY0+cP
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
-msgid "Configure the Twenty MCP server manually in Cascade."
-msgstr "Cascade-এ Twenty MCP সার্ভার ম্যানুয়ালি কনফিগার করুন।"
+msgid "Configure the {PRODUCT_NAME} MCP server manually in Cascade."
+msgstr "Cascade-এ {PRODUCT_NAME} MCP সার্ভার ম্যানুয়ালি কনফিগার করুন।"
 
-#. js-lingui-id: XiyvRh
+#. js-lingui-id: 1dqnSN
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
-msgid "Configure the Twenty MCP server manually in Cline."
-msgstr "Cline-এ Twenty MCP সার্ভার ম্যানুয়ালি কনফিগার করুন।"
+msgid "Configure the {PRODUCT_NAME} MCP server manually in Cline."
+msgstr "Cline-এ {PRODUCT_NAME} MCP সার্ভার ম্যানুয়ালি কনফিগার করুন।"
 
 #. js-lingui-id: qA9AGQ
 #: src/modules/settings/domains/components/SettingsDomainRecords.tsx
@@ -14019,10 +14019,10 @@ msgstr "মডেল আইডি আবশ্যক"
 msgid "Model information"
 msgstr "মডেলের তথ্য"
 
-#. js-lingui-id: iaurWj
+#. js-lingui-id: M4It/K
 #: src/pages/settings/ai/components/SettingsAiModelsTab.tsx
-msgid "Model used when you chat with Twenty"
-msgstr "Twenty-এর সাথে চ্যাট করার সময় ব্যবহৃত মডেল"
+msgid "Model used when you chat with {PRODUCT_NAME}"
+msgstr "{PRODUCT_NAME}-এর সাথে চ্যাট করার সময় ব্যবহৃত মডেল"
 
 #. js-lingui-id: //nm2/
 #: src/pages/settings/admin-panel/SettingsAdminAiProviderDetail.tsx
@@ -16161,20 +16161,20 @@ msgstr "ব্লক সেটিংস সম্পাদনা করতে �
 msgid "Open as link"
 msgstr "লিংক হিসেবে খুলুন"
 
-#. js-lingui-id: n0vVgf
+#. js-lingui-id: 4HNk5g
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
-msgid "Open Claude with the Twenty connector name and MCP URL prefilled."
-msgstr "Twenty কানেক্টরের নাম ও MCP URL প্রিফিল করে Claude খুলুন।"
+msgid "Open Claude with the {PRODUCT_NAME} connector name and MCP URL prefilled."
+msgstr "{PRODUCT_NAME} কানেক্টরের নাম ও MCP URL প্রিফিল করে Claude খুলুন।"
 
 #. js-lingui-id: uIKeEf
 #: src/modules/workflow/workflow-steps/workflow-actions/ai-agent-action/components/WorkflowRunStepAiAgentConversationButton.tsx
 msgid "Open conversation"
 msgstr "কথোপকথন খুলুন"
 
-#. js-lingui-id: +n2jpB
+#. js-lingui-id: rfZZAq
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
-msgid "Open Cursor's MCP installer with the Twenty remote server config."
-msgstr "Twenty রিমোট সার্ভার কনফিগসহ Cursor-এর MCP ইনস্টলার খুলুন।"
+msgid "Open Cursor's MCP installer with the {PRODUCT_NAME} remote server config."
+msgstr "{PRODUCT_NAME} রিমোট সার্ভার কনফিগসহ Cursor-এর MCP ইনস্টলার খুলুন।"
 
 #. js-lingui-id: pZZH4Q
 #: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
@@ -16247,10 +16247,10 @@ msgstr "রেকর্ড যেখানে খুলবে"
 msgid "Open records on a dedicated page"
 msgstr "আলাদা পৃষ্ঠায় রেকর্ড খুলুন"
 
-#. js-lingui-id: q170S2
+#. js-lingui-id: JNHH3c
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
-msgid "Open Replit with the Twenty remote server config."
-msgstr "Twenty রিমোট সার্ভার কনফিগসহ Replit খুলুন।"
+msgid "Open Replit with the {PRODUCT_NAME} remote server config."
+msgstr "{PRODUCT_NAME} রিমোট সার্ভার কনফিগসহ Replit খুলুন।"
 
 #. js-lingui-id: Yp+Hi/
 #: src/modules/settings/applications/components/SettingsApplicationActionButton.tsx
@@ -16633,10 +16633,10 @@ msgstr "পৃষ্ঠার লেআউটসমূহ"
 msgid "Page name"
 msgstr "পৃষ্ঠার নাম"
 
-#. js-lingui-id: NRvxzv
+#. js-lingui-id: Lt0KB1
 #: src/pages/not-found/NotFound.tsx
-msgid "Page Not Found | Twenty"
-msgstr "পৃষ্ঠা পাওয়া যায়নি | Twenty"
+msgid "Page Not Found | {PRODUCT_NAME}"
+msgstr "পৃষ্ঠা পাওয়া যায়নি | {PRODUCT_NAME}"
 
 #. js-lingui-id: oIhFvf
 #: src/modules/side-panel/pages/email-block-settings/components/EmailPageStyleSection.tsx
@@ -22776,10 +22776,10 @@ msgstr "ফিরোজা"
 msgid "Twenty fields"
 msgstr "Twenty ফিল্ডসমূহ"
 
-#. js-lingui-id: pNo8xt
+#. js-lingui-id: pK28sm
 #: src/pages/settings/ai/components/SettingsAiModelsTab.tsx
-msgid "Twenty fills each level with the best model that meets your requirements"
-msgstr "Twenty আপনার প্রয়োজন পূরণকারী সেরা মডেল দিয়ে প্রতিটি স্তর পূরণ করে"
+msgid "{PRODUCT_NAME} fills each level with the best model that meets your requirements"
+msgstr "{PRODUCT_NAME} আপনার প্রয়োজন পূরণকারী সেরা মডেল দিয়ে প্রতিটি স্তর পূরণ করে"
 
 #. js-lingui-id: YIjS4q
 #: src/modules/ai/components/SettingsAgentModelCapabilities.tsx
@@ -24599,10 +24599,10 @@ msgstr "সাপ্তাহিক"
 msgid "weeks"
 msgstr "সপ্তাহ"
 
-#. js-lingui-id: nTuObL
+#. js-lingui-id: YcIkJQ
 #: src/pages/auth/SignInUp.tsx
-msgid "Welcome to Twenty"
-msgstr "Twenty-তে স্বাগতম"
+msgid "Welcome to {PRODUCT_NAME}"
+msgstr "{PRODUCT_NAME}-তে স্বাগতম"
 
 #. js-lingui-id: t8ZvkC
 #: src/modules/onboarding/constants/WelcomeTitleMessage.ts

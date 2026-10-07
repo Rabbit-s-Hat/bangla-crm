@@ -65,8 +65,8 @@ msgstr "Confirm your new email address"
 
 #. js-lingui-explicit-id
 #: src/emails/password-update-notify.email.tsx
-msgid "Connect to Twenty"
-msgstr "Connect to Twenty"
+msgid "Connect to {PRODUCT_NAME}"
+msgstr "Connect to {PRODUCT_NAME}"
 
 #. js-lingui-explicit-id
 #: src/emails/password-update-notify.email.tsx
@@ -164,8 +164,8 @@ msgstr "Its data has been removed and can no longer be recovered."
 
 #. js-lingui-explicit-id
 #: src/emails/send-invite-link.email.tsx
-msgid "Join your team on Twenty"
-msgstr "Join your team on Twenty"
+msgid "Join your team on {PRODUCT_NAME}"
+msgstr "Join your team on {PRODUCT_NAME}"
 
 #. js-lingui-explicit-id
 #: src/emails/billing-subscription-renewing.email.tsx
@@ -306,8 +306,8 @@ msgstr "Website"
 
 #. js-lingui-explicit-id
 #: src/components/WhatIsTwenty.tsx
-msgid "What is Twenty?"
-msgstr "What is Twenty?"
+msgid "What is {PRODUCT_NAME}?"
+msgstr "What is {PRODUCT_NAME}?"
 
 #. js-lingui-explicit-id
 #: src/emails/billing-subscription-renewing.email.tsx
@@ -353,3 +353,28 @@ msgstr "Your workspace has been deleted"
 #: src/emails/warn-suspended-workspace.email.tsx
 msgid "Your workspace is paused"
 msgstr "Your workspace is paused"
+
+#. js-lingui-explicit-id
+#: src/components/Footer.tsx
+msgid "Source code"
+msgstr "Source code"
+
+#. js-lingui-explicit-id
+#: src/components/Footer.tsx
+msgid "View the source code of {PRODUCT_NAME}"
+msgstr "View the source code of {PRODUCT_NAME}"
+
+#. js-lingui-explicit-id
+#: src/components/Footer.tsx
+msgid "Built on Twenty"
+msgstr "Built on Twenty"
+
+#. js-lingui-explicit-id
+#: src/components/Footer.tsx
+msgid "Visit the website of Twenty, the open-source CRM this product is built on"
+msgstr "Visit the website of Twenty, the open-source CRM this product is built on"
+
+#. js-lingui-explicit-id
+#: src/components/Footer.tsx
+msgid "Free and open-source software (AGPL-3.0)"
+msgstr "Free and open-source software (AGPL-3.0)"

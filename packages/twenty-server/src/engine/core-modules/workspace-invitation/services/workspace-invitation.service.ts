@@ -7,6 +7,7 @@ import { msg } from '@lingui/core/macro';
 import { addMilliseconds } from 'date-fns';
 import ms from 'ms';
 import { SendInviteLinkEmail, renderEmail } from 'twenty-emails';
+import { PRODUCT_NAME } from 'twenty-shared/translations';
 import { AppPath, FileFolder } from 'twenty-shared/types';
 import { getAppPath, isDefined } from 'twenty-shared/utils';
 import {
@@ -394,12 +395,12 @@ export class WorkspaceInvitationService {
           plainText: true,
         });
 
-        const joinTeamMsg = msg`Join your team on Twenty`;
+        const joinTeamMsg = msg`Join your team on ${PRODUCT_NAME}`;
         const i18n = this.i18nService.getI18nInstance(sender.locale);
         const subject = i18n._(joinTeamMsg);
 
         await this.emailService.send({
-          from: `${sender.name.firstName} ${sender.name.lastName} (via Twenty) <${this.twentyConfigService.get('EMAIL_FROM_ADDRESS')}>`,
+          from: `${sender.name.firstName} ${sender.name.lastName} (via ${PRODUCT_NAME}) <${this.twentyConfigService.get('EMAIL_FROM_ADDRESS')}>`,
           to: invitation.value.email,
           subject,
           text,

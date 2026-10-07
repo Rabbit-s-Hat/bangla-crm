@@ -65,8 +65,8 @@ msgstr "আপনার নতুন ইমেইল ঠিকানা নি�
 
 #. js-lingui-explicit-id
 #: src/emails/password-update-notify.email.tsx
-msgid "Connect to Twenty"
-msgstr "Twenty-এর সাথে সংযুক্ত হন"
+msgid "Connect to {PRODUCT_NAME}"
+msgstr ""
 
 #. js-lingui-explicit-id
 #: src/emails/password-update-notify.email.tsx
@@ -164,8 +164,8 @@ msgstr "এর ডেটা মুছে ফেলা হয়েছে এব�
 
 #. js-lingui-explicit-id
 #: src/emails/send-invite-link.email.tsx
-msgid "Join your team on Twenty"
-msgstr "Twenty-তে আপনার টিমের সাথে যোগ দিন"
+msgid "Join your team on {PRODUCT_NAME}"
+msgstr ""
 
 #. js-lingui-explicit-id
 #: src/emails/billing-subscription-renewing.email.tsx
@@ -306,8 +306,8 @@ msgstr "ওয়েবসাইট"
 
 #. js-lingui-explicit-id
 #: src/components/WhatIsTwenty.tsx
-msgid "What is Twenty?"
-msgstr "Twenty কী?"
+msgid "What is {PRODUCT_NAME}?"
+msgstr ""
 
 #. js-lingui-explicit-id
 #: src/emails/billing-subscription-renewing.email.tsx
@@ -353,3 +353,28 @@ msgstr "আপনার ওয়ার্কস্পেস মুছে ফে
 #: src/emails/warn-suspended-workspace.email.tsx
 msgid "Your workspace is paused"
 msgstr "আপনার ওয়ার্কস্পেস স্থগিত আছে"
+
+#. js-lingui-explicit-id
+#: src/components/Footer.tsx
+msgid "Source code"
+msgstr "সোর্স কোড"
+
+#. js-lingui-explicit-id
+#: src/components/Footer.tsx
+msgid "View the source code of {PRODUCT_NAME}"
+msgstr "{PRODUCT_NAME}-এর সোর্স কোড দেখুন"
+
+#. js-lingui-explicit-id
+#: src/components/Footer.tsx
+msgid "Built on Twenty"
+msgstr "Twenty-র ওপর তৈরি"
+
+#. js-lingui-explicit-id
+#: src/components/Footer.tsx
+msgid "Visit the website of Twenty, the open-source CRM this product is built on"
+msgstr "Twenty-র ওয়েবসাইট দেখুন, যে ওপেন-সোর্স CRM-এর ওপর এই পণ্যটি তৈরি"
+
+#. js-lingui-explicit-id
+#: src/components/Footer.tsx
+msgid "Free and open-source software (AGPL-3.0)"
+msgstr "মুক্ত ও ওপেন-সোর্স সফটওয়্যার (AGPL-3.0)"
