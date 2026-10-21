@@ -5,6 +5,7 @@
 $script:Root = $PSScriptRoot
 $script:StoragePath = '/app/packages/twenty-server/.local-storage'
 $script:ReleasesApi = 'https://api.github.com/repos/Rabbit-s-Hat/bangla-crm/releases/latest'
+$script:Image = 'ghcr.io/rabbit-s-hat/bangla-crm'
 $script:ServerTries = 360   # x 5 s = 30 minutes (the first start creates the database)
 $script:BackupDir = ''
 Set-Location -LiteralPath $script:Root
@@ -67,6 +68,32 @@ function New-RandomHex { -join ((New-RandomBytes 24) | ForEach-Object { $_.ToStr
 function Test-Version([string]$Version) {
     return ($Version -eq 'latest' -or $Version -match '^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.]+)?$')
 }
+
+# True when version A is older than B (X.Y.Z[-pre], semver order: 0.2.0-rc.1 < 0.2.0).
+function Test-VersionOlder([string]$A, [string]$B) {
+    $ac, $ap = $A.Split([char[]]'-', 2)
+    $bc, $bp = $B.Split([char[]]'-', 2)
+    $x = $ac.Split('.'); $y = $bc.Split('.')
+    for ($i = 0; $i -lt 3; $i++) {
+        if ([long]$x[$i] -lt [long]$y[$i]) { return $true }
+        if ([long]$x[$i] -gt [long]$y[$i]) { return $false }
+    }
+    if ($ap -eq $bp) { return $false }
+    if (-not $ap) { return $false }
+    if (-not $bp) { return $true }
+    $x = $ap.Split('.'); $y = $bp.Split('.')
+    for ($i = 0; ($i -lt $x.Count) -or ($i -lt $y.Count); $i++) {
+        if ($i -ge $x.Count) { return $true }
+        if ($i -ge $y.Count) { return $false }
+        $p = $x[$i]; $q = $y[$i]
+        if ($p -ceq $q) { continue }
+        if (($p -match '^[0-9]+$') -and ($q -match '^[0-9]+$')) { return ([long]$p -lt [long]$q) }
+        return ([string]::CompareOrdinal($p, $q) -lt 0)
+    }
+    return $false
+}
+
+function Get-ImageId([string]$Tag) { Get-DockerOutput @('image', 'inspect', '--format', '{{.Id}}', ($script:Image + ':' + $Tag)) }
 
 # Only the current user, SYSTEM and Administrators may read secrets (.env, backups).
 function Protect-Path([string]$Path) {
@@ -428,7 +455,7 @@ function Get-LatestRelease {
     return ''
 }
 
-function Invoke-Update([string]$Version = '') {
+function Invoke-Update([string]$Version = '', [switch]$AllowDowngrade) {
     $oldVersion = Get-EnvValue 'TAG' 'latest'
     if (-not $Version) {
         if ($oldVersion -eq 'latest') {
@@ -437,31 +464,56 @@ function Invoke-Update([string]$Version = '') {
             Say 'Checking for a new version...'
             $Version = Get-LatestRelease
             if (-not $Version) { Fail 'Could not check for new versions (no internet?). You can name one: Update-Bangla-CRM.cmd -Version 0.2.0' }
-            if ($Version -eq $oldVersion) { Say ("Bangla CRM is up to date (version $oldVersion)."); return }
+            if (($Version -eq $oldVersion) -or ((Test-Version $Version) -and (Test-VersionOlder $Version $oldVersion))) {
+                Say ("Bangla CRM is up to date (version $oldVersion; newest release: $Version).")
+                return
+            }
         }
     }
     if (-not (Test-Version $Version)) { Fail 'Version must look like 0.2.0.' }
+    if (($Version -eq $oldVersion) -and ($oldVersion -ne 'latest')) { Say ("Bangla CRM is already running version $oldVersion."); return }
+    if (($Version -ne 'latest') -and ($oldVersion -ne 'latest') -and (Test-VersionOlder $Version $oldVersion) -and (-not $AllowDowngrade)) {
+        Fail ("$Version is OLDER than the installed $oldVersion. An older version may not work with the newer database. " +
+            "Restoring a backup made with $Version is safer; to go back anyway: Update-Bangla-CRM.cmd -Version $Version -AllowDowngrade")
+    }
     Say ("Updating Bangla CRM: $oldVersion -> $Version")
 
-    Say 'Making a backup before updating...'
+    # 1. Download while the current version keeps running (TAG from the environment overrides .env for this command only).
+    $oldId = Get-ImageId $oldVersion
+    Say ("Downloading version $Version (Bangla CRM keeps running meanwhile)...")
+    $savedTag = $env:TAG
+    $env:TAG = $Version
+    try {
+        $code = Invoke-Docker @('compose', 'pull') -AllowFail
+    } finally {
+        $env:TAG = $savedTag
+    }
+    if ($code -ne 0) { Fail ("Download failed. Nothing was changed; Bangla CRM keeps running version $oldVersion.") }
+    $newId = Get-ImageId $Version
+    if ($oldId -and ($newId -eq $oldId)) { Say ("Bangla CRM is up to date (the newest $Version is already installed)."); return }
+
+    # 2. Back up right before switching, so the backup holds the latest data.
+    Say 'Making a backup before switching...'
     Invoke-Backup
     $preBackup = $script:BackupDir
 
+    # 3. Switch.
     Set-EnvValue 'TAG' $Version
-    $code = Invoke-Docker @('compose', 'pull') -AllowFail
-    if ($code -ne 0) {
-        Set-EnvValue 'TAG' $oldVersion
-        Fail ("Download failed. Nothing was changed; Bangla CRM keeps running version $oldVersion.")
-    }
     try {
         Start-All
         Say ("Bangla CRM is now running version $Version. (Backup from before the update: $preBackup)")
+        if ($oldId) {   # free the disk space of the previous version
+            $old = if ($oldVersion -eq 'latest') { $oldId } else { $script:Image + ':' + $oldVersion }
+            Test-DockerCommand @('image', 'rm', $old) | Out-Null
+        }
         return
     } catch {
         Warn ("The new version did not start: " + $_.Exception.Message)
     }
     Warn ("Going back to version $oldVersion and the backup made just before the update...")
     Set-EnvValue 'TAG' $oldVersion
+    # With TAG=latest the download moved the "latest" name to the new image: point it back at the old one.
+    if ($oldId) { Invoke-Docker @('tag', $oldId, ($script:Image + ':' + $oldVersion)) -AllowFail | Out-Null }
     Invoke-Restore $preBackup -Yes
     Fail ("The update to $Version failed, and Bangla CRM was put back to $oldVersion. Please contact support with the output of: docker compose logs server")
 }

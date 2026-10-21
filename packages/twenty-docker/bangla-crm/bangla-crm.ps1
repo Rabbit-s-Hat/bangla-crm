@@ -2,7 +2,7 @@
 # from a Command Prompt here (the .cmd files pass options through):
 #   Start-Bangla-CRM.cmd / Stop-Bangla-CRM.cmd     start (and open the browser) / stop (data is kept)
 #   Backup-Bangla-CRM.cmd [-KeepDays N]           save database + uploaded files + settings into backups\<date-time>\
-#   Update-Bangla-CRM.cmd [-Version X]            back up, then install the newest release (or version X)
+#   Update-Bangla-CRM.cmd [-Version X]            download, back up, then switch to the newest release (or X; -AllowDowngrade for older)
 #   Restore-Bangla-CRM.cmd [backups\<date-time>]  replace ALL current data with a backup (asks which one)
 #   Logs-Bangla-CRM.cmd                           show the logs (Ctrl+C to quit)
 # Same as: powershell -ExecutionPolicy Bypass -File bangla-crm.ps1 start|stop|restart|status|logs|open|backup|update|restore
@@ -13,7 +13,8 @@ param(
     [Parameter(Position = 1)]
     [string]$Path = '',
     [string]$Version = '',
-    [int]$KeepDays = 0
+    [int]$KeepDays = 0,
+    [switch]$AllowDowngrade
 )
 
 $ErrorActionPreference = 'Stop'
@@ -44,7 +45,7 @@ function Main {
         'status' { Invoke-Docker @('compose', 'ps') | Out-Null }
         'logs' { Invoke-Docker @('compose', 'logs', '-f', '--tail', '200', 'server', 'worker') -AllowFail | Out-Null }
         'backup' { Invoke-Backup $KeepDays }
-        'update' { Invoke-Update $Version }
+        'update' { Invoke-Update $Version -AllowDowngrade:$AllowDowngrade }
         'restore' { Invoke-Restore $Path }
     }
 }

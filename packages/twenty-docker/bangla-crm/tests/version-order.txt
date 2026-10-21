@@ -1,0 +1,16 @@
+# A B expected(A older than B: yes/no) - shared by version-order.sh and version-order.ps1
+0.1.0 0.2.0 yes
+0.2.0 0.1.0 no
+0.2.0 0.2.0 no
+0.9.0 0.10.0 yes
+0.10.0 0.9.0 no
+1.0.0 0.99.99 no
+0.2.0-rc.1 0.2.0 yes
+0.2.0 0.2.0-rc.1 no
+0.2.0-rc.2 0.2.0-rc.10 yes
+0.2.0-rc.10 0.2.0-rc.2 no
+1.0.0-alpha 1.0.0-alpha.1 yes
+1.0.0-alpha.1 1.0.0-alpha.beta yes
+1.0.0-alpha.beta 1.0.0-beta yes
+1.0.0-beta.11 1.0.0-rc.1 yes
+0.2.0-rc.1 0.1.9 no

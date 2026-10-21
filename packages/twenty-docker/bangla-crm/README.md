@@ -103,7 +103,9 @@ Bangla CRM restarts automatically with Docker Desktop if it was running when the
 Restore **replaces all current data** with the chosen backup. You must type `RESTORE` to confirm. Before anything changes, a **safety backup** of the current data is made. The backup is first restored into a temporary database; if that fails, your current data is left untouched. If the backup was made with a different encryption key, Bangla CRM switches to the backup's key and keeps your previous settings in `.env.before-restore-<date-time>`.
 
 ### Updates
-Update checks for the newest published release. If you are up to date, nothing happens. Otherwise it makes a backup, downloads and starts the new version, and upgrades the database automatically. **If the new version does not start, it goes back to the previous version and the backup automatically.**
+Update checks for the newest published release (test versions such as `0.2.0-rc.1` are never offered automatically). If you are up to date, nothing happens. Otherwise it first downloads the new version while Bangla CRM keeps running, then makes a backup, then switches to the new version and upgrades the database automatically. **If the new version does not start, it goes back to the previous version and the backup automatically.** The previous version's download is deleted after a successful update to free disk space.
+
+Update refuses to install an **older** version than the one you run, because an older version may not work with a database the newer one has upgraded. Restoring a backup made with the older version is the safe way back. To go back anyway, add `-AllowDowngrade` (Windows) or `--allow-downgrade` (macOS/Linux).
 
 ### Moving to a new computer, or unpacking a newer zip
 You do **not** need a new zip to update: just run Update in your existing folder. If you move to a new computer or folder:

@@ -5,7 +5,8 @@
 #   bash bangla-crm.sh restart | status | open
 #   bash bangla-crm.sh logs                      follow the logs (Ctrl+C to quit)
 #   bash bangla-crm.sh backup [--keep-days N]    save database + uploaded files + settings into backups/<date-time>/
-#   bash bangla-crm.sh update [--version X]      back up, then install the newest release (or version X)
+#   bash bangla-crm.sh update [--version X]      download, back up, then switch to the newest release (or version X;
+#                                                older versions need --allow-downgrade)
 #   bash bangla-crm.sh restore backups/<date-time>   replace ALL current data with that backup
 #   sudo bash bangla-crm.sh finish-setup         cloud servers: open the site to everyone after you signed up
 if [ -z "${BASH_VERSION:-}" ]; then echo "Please run this with bash:  bash bangla-crm.sh"; exit 1; fi
@@ -14,6 +15,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 
 STORAGE_PATH=/app/packages/twenty-server/.local-storage
 RELEASES_API=https://api.github.com/repos/Rabbit-s-Hat/bangla-crm/releases/latest
+IMAGE=ghcr.io/rabbit-s-hat/bangla-crm
 SERVER_TRIES=360 # x 5 s = 30 minutes (the first start creates the database)
 
 say()  { printf '%s\n' "$*"; }
@@ -52,6 +54,34 @@ valid_version() {
   [ "$1" = latest ] && return 0
   [[ "$1" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.]+)?$ ]]
 }
+
+# version_lt A B: true when version A is older than B (X.Y.Z[-pre], semver order: 0.2.0-rc.1 < 0.2.0).
+version_lt() {
+  local ac="${1%%-*}" bc="${2%%-*}" ap="" bp="" i p q
+  [ "$1" != "$ac" ] && ap="${1#*-}"
+  [ "$2" != "$bc" ] && bp="${2#*-}"
+  local -a x y
+  IFS=. read -r -a x <<<"$ac"; IFS=. read -r -a y <<<"$bc"
+  for i in 0 1 2; do
+    [ "$((10#${x[i]}))" -lt "$((10#${y[i]}))" ] && return 0
+    [ "$((10#${x[i]}))" -gt "$((10#${y[i]}))" ] && return 1
+  done
+  [ "$ap" = "$bp" ] && return 1
+  [ -z "$ap" ] && return 1
+  [ -z "$bp" ] && return 0
+  IFS=. read -r -a x <<<"$ap"; IFS=. read -r -a y <<<"$bp"
+  for ((i = 0; i < ${#x[@]} || i < ${#y[@]}; i++)); do
+    p="${x[i]-}"; q="${y[i]-}"
+    [ -z "$p" ] && return 0
+    [ -z "$q" ] && return 1
+    [ "$p" = "$q" ] && continue
+    if [[ "$p" =~ ^[0-9]+$ && "$q" =~ ^[0-9]+$ ]]; then [ "$((10#$p))" -lt "$((10#$q))" ]; return; fi
+    [[ "$p" < "$q" ]]; return
+  done
+  return 1
+}
+
+image_id() { docker image inspect --format '{{.Id}}' "$IMAGE:$1" 2>/dev/null || true; }
 
 # The address to open on THIS computer (LAN installs also work at localhost; cloud uses the domain).
 local_url() {
@@ -294,10 +324,11 @@ latest_release() { # prints the newest published release number, or nothing
 }
 
 cmd_update() {
-  local new_version="" old_version pre_backup
+  local new_version="" allow_downgrade=0 old_version pre_backup old_id new_id
   while [ $# -gt 0 ]; do
     case "$1" in
       --version) [ $# -ge 2 ] || fail "--version needs a value"; new_version="$2"; shift 2 ;;
+      --allow-downgrade) allow_downgrade=1; shift ;;
       *) fail "Unknown option: $1" ;;
     esac
   done
@@ -309,31 +340,55 @@ cmd_update() {
       say "Checking for a new version..."
       new_version="$(latest_release)"
       [ -n "$new_version" ] || fail "Could not check for new versions (no internet?). You can name one: bash bangla-crm.sh update --version 0.2.0"
-      if [ "$new_version" = "$old_version" ]; then
-        say "Bangla CRM is up to date (version $old_version)."
+      if [ "$new_version" = "$old_version" ] || { valid_version "$new_version" && version_lt "$new_version" "$old_version"; }; then
+        say "Bangla CRM is up to date (version $old_version; newest release: $new_version)."
         return 0
       fi
     fi
   fi
   valid_version "$new_version" || fail "Version must look like 0.2.0."
+  if [ "$new_version" = "$old_version" ] && [ "$old_version" != latest ]; then
+    say "Bangla CRM is already running version $old_version."
+    return 0
+  fi
+  if [ "$new_version" != latest ] && [ "$old_version" != latest ] && version_lt "$new_version" "$old_version" &&
+    [ "$allow_downgrade" -ne 1 ]; then
+    fail "$new_version is OLDER than the installed $old_version. An older version may not work with the newer database. Restoring a backup made with $new_version is safer; to go back anyway: bash bangla-crm.sh update --version $new_version --allow-downgrade"
+  fi
   say "Updating Bangla CRM: $old_version -> $new_version"
 
-  say "Making a backup before updating..."
+  # 1. Download while the current version keeps running (TAG from the shell overrides .env for this command only).
+  old_id="$(image_id "$old_version")"
+  say "Downloading version $new_version (Bangla CRM keeps running meanwhile)..."
+  if ! TAG="$new_version" docker compose pull; then
+    fail "Download failed. Nothing was changed; Bangla CRM keeps running version $old_version."
+  fi
+  new_id="$(image_id "$new_version")"
+  if [ -n "$old_id" ] && [ "$new_id" = "$old_id" ]; then
+    say "Bangla CRM is up to date (the newest $new_version is already installed)."
+    return 0
+  fi
+
+  # 2. Back up right before switching, so the backup holds the latest data.
+  say "Making a backup before switching..."
   cmd_backup
   pre_backup="$BACKUP_DIR"
 
+  # 3. Switch.
   set_env TAG "$new_version"
-  if ! docker compose pull; then
-    set_env TAG "$old_version"
-    fail "Download failed. Nothing was changed; Bangla CRM keeps running version $old_version."
-  fi
   if ( start_all ); then
     say "Bangla CRM is now running version $new_version. (Backup from before the update: $pre_backup)"
+    if [ -n "$old_id" ]; then # free the disk space of the previous version
+      if [ "$old_version" = latest ]; then docker image rm "$old_id" >/dev/null 2>&1 || true
+      else docker image rm "$IMAGE:$old_version" >/dev/null 2>&1 || true; fi
+    fi
     return 0
   fi
 
   warn "The new version did not start. Going back to version $old_version and the backup made just before the update..."
   set_env TAG "$old_version"
+  # With TAG=latest the download moved the "latest" name to the new image: point it back at the old one.
+  if [ -n "$old_id" ]; then docker tag "$old_id" "$IMAGE:$old_version" || true; fi
   cmd_restore "$pre_backup" --yes
   fail "The update to $new_version failed, and Bangla CRM was put back to $old_version. Please contact support with: docker compose logs server"
 }

@@ -168,6 +168,14 @@ jobs:
       - name: Restore stub test (Windows PowerShell 5.1)
         shell: cmd
         run: powershell -NoProfile -ExecutionPolicy Bypass -File packages\twenty-docker\bangla-crm\tests\restore-stub.ps1
+      - name: Update stub test (Windows PowerShell 5.1)
+        shell: cmd
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File packages\twenty-docker\bangla-crm\tests\update-stub.ps1
+      - name: Version order (PowerShell 5.1 and bash)
+        shell: cmd
+        run: |
+          powershell -NoProfile -ExecutionPolicy Bypass -File packages\twenty-docker\bangla-crm\tests\version-order.ps1 || exit /b 1
+          bash packages/twenty-docker/bangla-crm/tests/version-order.sh
 
   # On a release tag, publish the customer install package as a GitHub Release zip, with TAG in
   # .env.example pinned to the image built above and source links pinned to this tag (AGPL section 13).
@@ -219,6 +227,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "$GITHUB_REF_NAME" "dist/$PKG.zip" \
+          # A version with a suffix (0.2.0-rc.1) is a pre-release: /releases/latest, which Update uses,
+          # never returns it, so customers are only offered stable versions automatically.
+          PRE=""
+          case "$VERSION" in *-*) PRE="--prerelease" ;; esac
+          gh release create "$GITHUB_REF_NAME" "dist/$PKG.zip" $PRE \
             --title "Bangla CRM $VERSION" \
             --notes "Install package for Bangla CRM $VERSION (see README.md / README.bn.md inside the zip). Docker image: ghcr.io/rabbit-s-hat/bangla-crm:$VERSION. Source code: https://github.com/Rabbit-s-Hat/bangla-crm/tree/$GITHUB_REF_NAME (AGPL-3.0)."
