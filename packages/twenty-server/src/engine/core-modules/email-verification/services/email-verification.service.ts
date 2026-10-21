@@ -5,7 +5,7 @@ import { msg } from '@lingui/core/macro';
 import { addMilliseconds, differenceInMilliseconds } from 'date-fns';
 import ms from 'ms';
 import { SendEmailVerificationLinkEmail, renderEmail } from 'twenty-emails';
-import { type APP_LOCALES } from 'twenty-shared/translations';
+import { type APP_LOCALES, PRODUCT_NAME } from 'twenty-shared/translations';
 import { AppPath } from 'twenty-shared/types';
 import { assertIsDefinedOrThrow, isDefined } from 'twenty-shared/utils';
 import { Repository } from 'typeorm';
@@ -102,7 +102,7 @@ export class EmailVerificationService {
     const emailVerificationMsg =
       verificationTrigger === EmailVerificationTrigger.EMAIL_UPDATE
         ? msg`Please confirm your updated email`
-        : msg`Welcome to Twenty: Please Confirm Your Email`;
+        : msg`Welcome to ${PRODUCT_NAME}: Please Confirm Your Email`;
     const i18n = this.i18nService.getI18nInstance(locale);
     const subject = i18n._(emailVerificationMsg);
 

@@ -6509,10 +6509,10 @@ msgctxt "objectMetadata.description"
 msgid "Join table linking message channel message associations to message folders"
 msgstr "মেসেজ চ্যানেল মেসেজ অ্যাসোসিয়েশনকে মেসেজ ফোল্ডারের সাথে যুক্ত করার জয়েন টেবিল"
 
-#. js-lingui-id: PviVyk
+#. js-lingui-id: UBdCQS
 #: src/engine/core-modules/workspace-invitation/services/workspace-invitation.service.ts
-msgid "Join your team on Twenty"
-msgstr "Twenty-তে আপনার দলে যোগ দিন"
+msgid "Join your team on {PRODUCT_NAME}"
+msgstr "{PRODUCT_NAME}-তে আপনার দলে যোগ দিন"
 
 #. js-lingui-id: +KEn4d
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-call-recording-standard-flat-field-metadata.util.ts
@@ -11079,10 +11079,10 @@ msgstr "সিস্টেম ফিল্ড মোছা যায় না"
 msgid "System fields cannot be updated"
 msgstr "সিস্টেম ফিল্ড আপডেট করা যায় না"
 
-#. js-lingui-id: aK2k19
+#. js-lingui-id: smd9Fc
 #: src/engine/metadata-modules/index-metadata/services/index-metadata.service.ts
-msgid "System indexes are required for Twenty to work and cannot be deleted."
-msgstr "Twenty কাজ করার জন্য সিস্টেম ইনডেক্স প্রয়োজন, তাই এগুলো মোছা যায় না।"
+msgid "System indexes are required for {PRODUCT_NAME} to work and cannot be deleted."
+msgstr "{PRODUCT_NAME} কাজ করার জন্য সিস্টেম ইনডেক্স প্রয়োজন, তাই এগুলো মোছা যায় না।"
 
 #. js-lingui-id: /ojawH
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-object-metadata-validator.service.ts
@@ -14069,10 +14069,10 @@ msgstr "ওয়েবহুক খুঁজে পাওয়া যায়
 msgid "Wednesday"
 msgstr "বুধবার"
 
-#. js-lingui-id: TVkCrJ
+#. js-lingui-id: 7Zte3T
 #: src/engine/core-modules/email-verification/services/email-verification.service.ts
-msgid "Welcome to Twenty: Please Confirm Your Email"
-msgstr "Twenty-এ স্বাগতম: অনুগ্রহ করে আপনার ইমেইল নিশ্চিত করুন"
+msgid "Welcome to {PRODUCT_NAME}: Please Confirm Your Email"
+msgstr "{PRODUCT_NAME}-এ স্বাগতম: অনুগ্রহ করে আপনার ইমেইল নিশ্চিত করুন"
 
 #. js-lingui-id: lKboI8
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-record-share-standard-flat-field-metadata.util.ts

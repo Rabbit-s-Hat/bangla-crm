@@ -4,7 +4,7 @@ import { CallToAction } from 'src/components/CallToAction';
 import { MainText } from 'src/components/MainText';
 import { Title } from 'src/components/Title';
 import { createI18nInstance } from 'src/utils/i18n.utils';
-import { type APP_LOCALES } from 'twenty-shared/translations';
+import { type APP_LOCALES, PRODUCT_NAME } from 'twenty-shared/translations';
 
 type PasswordUpdateNotifyEmailProps = {
   userName: string;
@@ -43,7 +43,10 @@ export const PasswordUpdateNotifyEmail = ({
         <br />
       </MainText>
       <br />
-      <CallToAction value={i18n._('Connect to Twenty')} href={link} />
+      <CallToAction
+        value={i18n._('Connect to {PRODUCT_NAME}', { PRODUCT_NAME })}
+        href={link}
+      />
       <br />
       <br />
     </BaseEmail>

@@ -1,5 +1,6 @@
 import { styled } from '@linaria/react';
 import { t } from '@lingui/core/macro';
+import { PRODUCT_NAME } from 'twenty-shared/translations';
 import { isDefined } from 'twenty-shared/utils';
 import { Section } from 'twenty-ui/components';
 import { Tooltip } from 'twenty-ui/primitives/surfaces';
@@ -107,7 +108,7 @@ export const SettingsAiModelTiersPreview = () => {
                           ? t`No model is available for this mode.`
                           : tier.isPinned
                             ? t`Manually selected for this mode.`
-                            : t`Automatically selected by Twenty for this mode.`
+                            : t`Automatically selected by ${PRODUCT_NAME} for this mode.`
                       }
                     >
                       {getAiModelModeDescription(tier, {

@@ -1,4 +1,5 @@
 import { t } from '@lingui/core/macro';
+import { PRODUCT_NAME } from 'twenty-shared/translations';
 
 import AmazonQLogo from '@/settings/mcp-and-apis/assets/mcp-clients/amazon-q.svg';
 import AugmentCodeLogo from '@/settings/mcp-and-apis/assets/mcp-clients/augment-code.svg';
@@ -54,7 +55,7 @@ export const buildMcpSetupCategories = ({
       {
         title: t`Claude`,
         badge: t`Preset link`,
-        description: t`Open Claude with the Twenty connector name and MCP URL prefilled.`,
+        description: t`Open Claude with the ${PRODUCT_NAME} connector name and MCP URL prefilled.`,
         ctaLabel: t`Install`,
         disabledTooltip: t`Claude install links require an HTTPS MCP URL.`,
         href: isHttpsInstallLinkEnabled
@@ -73,7 +74,7 @@ export const buildMcpSetupCategories = ({
       {
         title: t`Cursor`,
         badge: t`Install link`,
-        description: t`Open Cursor's MCP installer with the Twenty remote server config.`,
+        description: t`Open Cursor's MCP installer with the ${PRODUCT_NAME} remote server config.`,
         ctaLabel: t`Install`,
         href: buildCursorInstallLink(mcpServerUrl),
         logo: <McpClientLogo src={CursorLogo} invertInDarkMode />,
@@ -89,7 +90,7 @@ export const buildMcpSetupCategories = ({
       {
         title: t`Goose`,
         badge: t`Install link`,
-        description: t`Add Twenty as a Streamable HTTP extension in Goose.`,
+        description: t`Add ${PRODUCT_NAME} as a Streamable HTTP extension in Goose.`,
         ctaLabel: t`Install`,
         href: buildGooseInstallLink(mcpServerUrl),
         logo: <McpClientLogo src={GooseLogo} invertInDarkMode />,
@@ -97,7 +98,7 @@ export const buildMcpSetupCategories = ({
       {
         title: t`Replit Agent`,
         badge: t`Install link`,
-        description: t`Open Replit with the Twenty remote server config.`,
+        description: t`Open Replit with the ${PRODUCT_NAME} remote server config.`,
         ctaLabel: t`Install`,
         disabledTooltip: t`Replit install links require an HTTPS MCP URL.`,
         href: isHttpsInstallLinkEnabled
@@ -110,7 +111,7 @@ export const buildMcpSetupCategories = ({
       {
         title: t`LM Studio`,
         badge: t`Install link`,
-        description: t`Add the Twenty remote server with LM Studio's install link.`,
+        description: t`Add the ${PRODUCT_NAME} remote server with LM Studio's install link.`,
         ctaLabel: t`Install`,
         href: buildLmStudioInstallLink(mcpServerUrl),
         logo: <McpClientLogo src={LmStudioLogo} invertInDarkMode />,
@@ -118,7 +119,7 @@ export const buildMcpSetupCategories = ({
       {
         title: t`Cline`,
         badge: t`Manual`,
-        description: t`Configure the Twenty MCP server manually in Cline.`,
+        description: t`Configure the ${PRODUCT_NAME} MCP server manually in Cline.`,
         ctaLabel: t`Docs`,
         href: MCP_SETUP.clientDocsUrls.cline,
         logo: <McpClientLogo src={ClineLogo} invertInDarkMode />,
@@ -126,7 +127,7 @@ export const buildMcpSetupCategories = ({
       {
         title: t`Zed`,
         badge: t`Manual`,
-        description: t`Add the Twenty MCP server as a remote context server in Zed.`,
+        description: t`Add the ${PRODUCT_NAME} MCP server as a remote context server in Zed.`,
         ctaLabel: t`Docs`,
         href: MCP_SETUP.clientDocsUrls.zed,
         logo: <McpClientLogo src={ZedLogo} />,
@@ -134,7 +135,7 @@ export const buildMcpSetupCategories = ({
       {
         title: t`Windsurf / Cascade`,
         badge: t`Manual`,
-        description: t`Configure the Twenty MCP server manually in Cascade.`,
+        description: t`Configure the ${PRODUCT_NAME} MCP server manually in Cascade.`,
         ctaLabel: t`Docs`,
         href: MCP_SETUP.clientDocsUrls.windsurf,
         logo: <McpClientLogo src={WindsurfLogo} invertInDarkMode />,
@@ -142,7 +143,7 @@ export const buildMcpSetupCategories = ({
       {
         title: t`Raycast`,
         badge: t`Settings`,
-        description: t`Add the Twenty MCP server from Raycast's MCP commands or settings.`,
+        description: t`Add the ${PRODUCT_NAME} MCP server from Raycast's MCP commands or settings.`,
         ctaLabel: t`Docs`,
         href: MCP_SETUP.clientDocsUrls.raycast,
         logo: <McpClientLogo src={RaycastLogo} />,
@@ -166,7 +167,7 @@ export const buildMcpSetupCategories = ({
       {
         title: t`Gemini CLI`,
         badge: t`CLI config`,
-        description: t`Add the Twenty MCP server in Gemini CLI settings.`,
+        description: t`Add the ${PRODUCT_NAME} MCP server in Gemini CLI settings.`,
         ctaLabel: t`Docs`,
         href: MCP_SETUP.clientDocsUrls.geminiCli,
         logo: <McpClientLogo src={GeminiCliLogo} />,
@@ -182,7 +183,7 @@ export const buildMcpSetupCategories = ({
       {
         title: t`LibreChat`,
         badge: t`YAML config`,
-        description: t`Add the Twenty MCP server to your LibreChat configuration file.`,
+        description: t`Add the ${PRODUCT_NAME} MCP server to your LibreChat configuration file.`,
         ctaLabel: t`Docs`,
         href: MCP_SETUP.clientDocsUrls.libreChat,
         logo: <McpClientLogo src={LibreChatLogo} />,
@@ -190,7 +191,7 @@ export const buildMcpSetupCategories = ({
       {
         title: t`Augment Code`,
         badge: t`Settings`,
-        description: t`Add the Twenty MCP server from Augment Code settings.`,
+        description: t`Add the ${PRODUCT_NAME} MCP server from Augment Code settings.`,
         ctaLabel: t`Docs`,
         href: MCP_SETUP.clientDocsUrls.augment,
         logo: <McpClientLogo src={AugmentCodeLogo} invertInDarkMode />,

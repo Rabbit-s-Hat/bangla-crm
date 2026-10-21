@@ -1740,40 +1740,40 @@ msgstr "Add SSO Identity Provider"
 msgid "Add test input for evaluation (e.g., \"Find all customers in NY\")"
 msgstr "Add test input for evaluation (e.g., \"Find all customers in NY\")"
 
-#. js-lingui-id: FKGcEL
+#. js-lingui-id: LKHif9
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
-msgid "Add the Twenty MCP server as a remote context server in Zed."
-msgstr "Add the Twenty MCP server as a remote context server in Zed."
+msgid "Add the {PRODUCT_NAME} MCP server as a remote context server in Zed."
+msgstr "Add the {PRODUCT_NAME} MCP server as a remote context server in Zed."
 
-#. js-lingui-id: iA2nHX
+#. js-lingui-id: aBcUUR
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
-msgid "Add the Twenty MCP server from Augment Code settings."
-msgstr "Add the Twenty MCP server from Augment Code settings."
+msgid "Add the {PRODUCT_NAME} MCP server from Augment Code settings."
+msgstr "Add the {PRODUCT_NAME} MCP server from Augment Code settings."
 
-#. js-lingui-id: l+NzAk
+#. js-lingui-id: XhAdby
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
-msgid "Add the Twenty MCP server from Raycast's MCP commands or settings."
-msgstr "Add the Twenty MCP server from Raycast's MCP commands or settings."
+msgid "Add the {PRODUCT_NAME} MCP server from Raycast's MCP commands or settings."
+msgstr "Add the {PRODUCT_NAME} MCP server from Raycast's MCP commands or settings."
 
-#. js-lingui-id: j6G/yI
+#. js-lingui-id: /IRxOL
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
-msgid "Add the Twenty MCP server in Gemini CLI settings."
-msgstr "Add the Twenty MCP server in Gemini CLI settings."
+msgid "Add the {PRODUCT_NAME} MCP server in Gemini CLI settings."
+msgstr "Add the {PRODUCT_NAME} MCP server in Gemini CLI settings."
 
-#. js-lingui-id: /OyhlM
+#. js-lingui-id: JC7baT
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
-msgid "Add the Twenty MCP server to your LibreChat configuration file."
-msgstr "Add the Twenty MCP server to your LibreChat configuration file."
+msgid "Add the {PRODUCT_NAME} MCP server to your LibreChat configuration file."
+msgstr "Add the {PRODUCT_NAME} MCP server to your LibreChat configuration file."
 
-#. js-lingui-id: K0DXoj
+#. js-lingui-id: 0PPJyl
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
-msgid "Add the Twenty remote server with LM Studio's install link."
-msgstr "Add the Twenty remote server with LM Studio's install link."
+msgid "Add the {PRODUCT_NAME} remote server with LM Studio's install link."
+msgstr "Add the {PRODUCT_NAME} remote server with LM Studio's install link."
 
-#. js-lingui-id: BTFMKE
+#. js-lingui-id: A9wDk/
 #: src/pages/settings/communications/SettingsWorkspaceCommunicationGroupChannelDetail.tsx
-msgid "Add these records at your DNS provider. Twenty checks them automatically."
-msgstr "Add these records at your DNS provider. Twenty checks them automatically."
+msgid "Add these records at your DNS provider. {PRODUCT_NAME} checks them automatically."
+msgstr "Add these records at your DNS provider. {PRODUCT_NAME} checks them automatically."
 
 #. js-lingui-id: 5+ttxv
 #: src/modules/settings/accounts/components/SettingsAccountsBlocklistInput.tsx
@@ -1790,10 +1790,10 @@ msgstr "Add to Favorite"
 msgid "Add topic"
 msgstr "Add topic"
 
-#. js-lingui-id: 4D/zWv
+#. js-lingui-id: gG62tT
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
-msgid "Add Twenty as a Streamable HTTP extension in Goose."
-msgstr "Add Twenty as a Streamable HTTP extension in Goose."
+msgid "Add {PRODUCT_NAME} as a Streamable HTTP extension in Goose."
+msgstr "Add {PRODUCT_NAME} as a Streamable HTTP extension in Goose."
 
 #. js-lingui-id: XnwceV
 #: src/pages/settings/applications/components/SettingsApplicationRegistrationRedirectURIsInput.tsx
@@ -3465,10 +3465,10 @@ msgstr "Automatically create People records when receiving or sending emails"
 msgid "Automatically install this app on every newly created workspace"
 msgstr "Automatically install this app on every newly created workspace"
 
-#. js-lingui-id: MHsVk5
+#. js-lingui-id: uqzb2c
 #: src/pages/settings/ai/components/SettingsAiModelTiersPreview.tsx
-msgid "Automatically selected by Twenty for this mode."
-msgstr "Automatically selected by Twenty for this mode."
+msgid "Automatically selected by {PRODUCT_NAME} for this mode."
+msgstr "Automatically selected by {PRODUCT_NAME} for this mode."
 
 #. js-lingui-id: XFGV21
 #: src/pages/settings/applications/tabs/SettingsApplicationAutoUpdateSection.tsx
@@ -3885,10 +3885,10 @@ msgstr "Button"
 msgid "by {author}"
 msgstr "by {author}"
 
-#. js-lingui-id: 8Pfllj
+#. js-lingui-id: SOwrZz
 #: src/modules/auth/sign-in-up/components/FooterNote.tsx
-msgid "By using Twenty, you agree to the"
-msgstr "By using Twenty, you agree to the"
+msgid "By using {PRODUCT_NAME}, you agree to the"
+msgstr "By using {PRODUCT_NAME}, you agree to the"
 
 #. js-lingui-id: Yx41df
 #: src/modules/auth/sign-in-up/components/FooterNote.tsx
@@ -5232,15 +5232,15 @@ msgstr "Configure the remote MCP server through Warp's agent settings."
 msgid "Configure the remote server in Amazon Q Developer's MCP settings."
 msgstr "Configure the remote server in Amazon Q Developer's MCP settings."
 
-#. js-lingui-id: g1/8jH
+#. js-lingui-id: eY0+cP
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
-msgid "Configure the Twenty MCP server manually in Cascade."
-msgstr "Configure the Twenty MCP server manually in Cascade."
+msgid "Configure the {PRODUCT_NAME} MCP server manually in Cascade."
+msgstr "Configure the {PRODUCT_NAME} MCP server manually in Cascade."
 
-#. js-lingui-id: XiyvRh
+#. js-lingui-id: 1dqnSN
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
-msgid "Configure the Twenty MCP server manually in Cline."
-msgstr "Configure the Twenty MCP server manually in Cline."
+msgid "Configure the {PRODUCT_NAME} MCP server manually in Cline."
+msgstr "Configure the {PRODUCT_NAME} MCP server manually in Cline."
 
 #. js-lingui-id: qA9AGQ
 #: src/modules/settings/domains/components/SettingsDomainRecords.tsx
@@ -14042,10 +14042,10 @@ msgstr "Model ID is required"
 msgid "Model information"
 msgstr "Model information"
 
-#. js-lingui-id: iaurWj
+#. js-lingui-id: M4It/K
 #: src/pages/settings/ai/components/SettingsAiModelsTab.tsx
-msgid "Model used when you chat with Twenty"
-msgstr "Model used when you chat with Twenty"
+msgid "Model used when you chat with {PRODUCT_NAME}"
+msgstr "Model used when you chat with {PRODUCT_NAME}"
 
 #. js-lingui-id: //nm2/
 #: src/pages/settings/admin-panel/SettingsAdminAiProviderDetail.tsx
@@ -16184,20 +16184,20 @@ msgstr "Open an email editor to edit block settings."
 msgid "Open as link"
 msgstr "Open as link"
 
-#. js-lingui-id: n0vVgf
+#. js-lingui-id: 4HNk5g
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
-msgid "Open Claude with the Twenty connector name and MCP URL prefilled."
-msgstr "Open Claude with the Twenty connector name and MCP URL prefilled."
+msgid "Open Claude with the {PRODUCT_NAME} connector name and MCP URL prefilled."
+msgstr "Open Claude with the {PRODUCT_NAME} connector name and MCP URL prefilled."
 
 #. js-lingui-id: uIKeEf
 #: src/modules/workflow/workflow-steps/workflow-actions/ai-agent-action/components/WorkflowRunStepAiAgentConversationButton.tsx
 msgid "Open conversation"
 msgstr "Open conversation"
 
-#. js-lingui-id: +n2jpB
+#. js-lingui-id: rfZZAq
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
-msgid "Open Cursor's MCP installer with the Twenty remote server config."
-msgstr "Open Cursor's MCP installer with the Twenty remote server config."
+msgid "Open Cursor's MCP installer with the {PRODUCT_NAME} remote server config."
+msgstr "Open Cursor's MCP installer with the {PRODUCT_NAME} remote server config."
 
 #. js-lingui-id: pZZH4Q
 #: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
@@ -16270,10 +16270,10 @@ msgstr "Open records in"
 msgid "Open records on a dedicated page"
 msgstr "Open records on a dedicated page"
 
-#. js-lingui-id: q170S2
+#. js-lingui-id: JNHH3c
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
-msgid "Open Replit with the Twenty remote server config."
-msgstr "Open Replit with the Twenty remote server config."
+msgid "Open Replit with the {PRODUCT_NAME} remote server config."
+msgstr "Open Replit with the {PRODUCT_NAME} remote server config."
 
 #. js-lingui-id: Yp+Hi/
 #: src/modules/settings/applications/components/SettingsApplicationActionButton.tsx
@@ -16656,10 +16656,10 @@ msgstr "Page layouts"
 msgid "Page name"
 msgstr "Page name"
 
-#. js-lingui-id: NRvxzv
+#. js-lingui-id: Lt0KB1
 #: src/pages/not-found/NotFound.tsx
-msgid "Page Not Found | Twenty"
-msgstr "Page Not Found | Twenty"
+msgid "Page Not Found | {PRODUCT_NAME}"
+msgstr "Page Not Found | {PRODUCT_NAME}"
 
 #. js-lingui-id: oIhFvf
 #: src/modules/side-panel/pages/email-block-settings/components/EmailPageStyleSection.tsx
@@ -22831,10 +22831,10 @@ msgstr "Turquoise"
 msgid "Twenty fields"
 msgstr "Twenty fields"
 
-#. js-lingui-id: pNo8xt
+#. js-lingui-id: pK28sm
 #: src/pages/settings/ai/components/SettingsAiModelsTab.tsx
-msgid "Twenty fills each level with the best model that meets your requirements"
-msgstr "Twenty fills each level with the best model that meets your requirements"
+msgid "{PRODUCT_NAME} fills each level with the best model that meets your requirements"
+msgstr "{PRODUCT_NAME} fills each level with the best model that meets your requirements"
 
 #. js-lingui-id: YIjS4q
 #: src/modules/ai/components/SettingsAgentModelCapabilities.tsx
@@ -24654,10 +24654,10 @@ msgstr "Weekly"
 msgid "weeks"
 msgstr "weeks"
 
-#. js-lingui-id: nTuObL
+#. js-lingui-id: YcIkJQ
 #: src/pages/auth/SignInUp.tsx
-msgid "Welcome to Twenty"
-msgstr "Welcome to Twenty"
+msgid "Welcome to {PRODUCT_NAME}"
+msgstr "Welcome to {PRODUCT_NAME}"
 
 #. js-lingui-id: t8ZvkC
 #: src/modules/onboarding/constants/WelcomeTitleMessage.ts

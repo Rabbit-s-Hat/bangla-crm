@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { msg } from '@lingui/core/macro';
+import { PRODUCT_NAME } from 'twenty-shared/translations';
 import { compositeTypeDefinitions, RelationType } from 'twenty-shared/types';
 import { isNonEmptyString } from '@sniptt/guards';
 import { isDefined } from 'twenty-shared/utils';
@@ -345,7 +346,7 @@ export class IndexMetadataService {
         `Index ${id} is a system index and cannot be deleted`,
         IndexMetadataExceptionCode.CANNOT_DELETE_SYSTEM_INDEX,
         {
-          userFriendlyMessage: msg`System indexes are required for Twenty to work and cannot be deleted.`,
+          userFriendlyMessage: msg`System indexes are required for ${PRODUCT_NAME} to work and cannot be deleted.`,
         },
       );
     }

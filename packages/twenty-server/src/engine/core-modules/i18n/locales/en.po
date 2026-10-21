@@ -6509,10 +6509,10 @@ msgctxt "objectMetadata.description"
 msgid "Join table linking message channel message associations to message folders"
 msgstr "Join table linking message channel message associations to message folders"
 
-#. js-lingui-id: PviVyk
+#. js-lingui-id: UBdCQS
 #: src/engine/core-modules/workspace-invitation/services/workspace-invitation.service.ts
-msgid "Join your team on Twenty"
-msgstr "Join your team on Twenty"
+msgid "Join your team on {PRODUCT_NAME}"
+msgstr "Join your team on {PRODUCT_NAME}"
 
 #. js-lingui-id: +KEn4d
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-call-recording-standard-flat-field-metadata.util.ts
@@ -11079,10 +11079,10 @@ msgstr "System fields cannot be deleted"
 msgid "System fields cannot be updated"
 msgstr "System fields cannot be updated"
 
-#. js-lingui-id: aK2k19
+#. js-lingui-id: smd9Fc
 #: src/engine/metadata-modules/index-metadata/services/index-metadata.service.ts
-msgid "System indexes are required for Twenty to work and cannot be deleted."
-msgstr "System indexes are required for Twenty to work and cannot be deleted."
+msgid "System indexes are required for {PRODUCT_NAME} to work and cannot be deleted."
+msgstr "System indexes are required for {PRODUCT_NAME} to work and cannot be deleted."
 
 #. js-lingui-id: /ojawH
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-object-metadata-validator.service.ts
@@ -14069,10 +14069,10 @@ msgstr "Webhook not found."
 msgid "Wednesday"
 msgstr "Wednesday"
 
-#. js-lingui-id: TVkCrJ
+#. js-lingui-id: 7Zte3T
 #: src/engine/core-modules/email-verification/services/email-verification.service.ts
-msgid "Welcome to Twenty: Please Confirm Your Email"
-msgstr "Welcome to Twenty: Please Confirm Your Email"
+msgid "Welcome to {PRODUCT_NAME}: Please Confirm Your Email"
+msgstr "Welcome to {PRODUCT_NAME}: Please Confirm Your Email"
 
 #. js-lingui-id: lKboI8
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-record-share-standard-flat-field-metadata.util.ts

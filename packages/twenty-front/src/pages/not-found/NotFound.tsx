@@ -3,6 +3,7 @@ import { ErrorState } from '@/ui/feedback/empty-state/components/ErrorState';
 import { NavigationButton } from '@/ui/input/components/NavigationButton';
 import { Trans, useLingui } from '@lingui/react/macro';
 import { Suspense, lazy } from 'react';
+import { PRODUCT_NAME } from 'twenty-shared/translations';
 import { AppPath } from 'twenty-shared/types';
 
 const BackgroundMockPage = lazy(() =>
@@ -42,7 +43,7 @@ export const NotFound = () => {
 
   return (
     <>
-      <PageTitle title={t`Page Not Found | Twenty`} />
+      <PageTitle title={t`Page Not Found | ${PRODUCT_NAME}`} />
       <StyledBackDrop>
         <ErrorState.Root>
           <AnimatedPlaceholder type="error404" />
