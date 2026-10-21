@@ -66,7 +66,7 @@ msgstr "আপনার নতুন ইমেইল ঠিকানা নি�
 #. js-lingui-explicit-id
 #: src/emails/password-update-notify.email.tsx
 msgid "Connect to {PRODUCT_NAME}"
-msgstr ""
+msgstr "{PRODUCT_NAME}-এর সাথে সংযুক্ত হন"
 
 #. js-lingui-explicit-id
 #: src/emails/password-update-notify.email.tsx
@@ -165,7 +165,7 @@ msgstr "এর ডেটা মুছে ফেলা হয়েছে এব�
 #. js-lingui-explicit-id
 #: src/emails/send-invite-link.email.tsx
 msgid "Join your team on {PRODUCT_NAME}"
-msgstr ""
+msgstr "{PRODUCT_NAME}-এ আপনার টিমের সাথে যোগ দিন"
 
 #. js-lingui-explicit-id
 #: src/emails/billing-subscription-renewing.email.tsx
@@ -307,7 +307,7 @@ msgstr "ওয়েবসাইট"
 #. js-lingui-explicit-id
 #: src/components/WhatIsTwenty.tsx
 msgid "What is {PRODUCT_NAME}?"
-msgstr ""
+msgstr "{PRODUCT_NAME} কী?"
 
 #. js-lingui-explicit-id
 #: src/emails/billing-subscription-renewing.email.tsx
