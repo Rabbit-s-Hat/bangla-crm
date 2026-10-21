@@ -82,6 +82,18 @@ container_id() { docker compose ps -aq "$1" 2>/dev/null | head -n 1; }
 is_running()   { [ -n "$(docker compose ps --status running -q "$1" 2>/dev/null)" ]; }
 volume_exists() { docker volume inspect "bangla-crm_$1" >/dev/null 2>&1; }
 
+# SQL goes to psql on stdin (same as the Windows scripts, where -c arguments lose their inner quotes).
+sql_ident() { printf '"%s"' "$(printf '%s' "$1" | sed 's/"/""/g')"; }
+sql_text()  { printf "'%s'" "$(printf '%s' "$1" | sed "s/'/''/g")"; }
+run_sql() { # run_sql USER < sql
+  docker compose exec -T db psql -U "$1" -d postgres -v ON_ERROR_STOP=1 -q -t -A -f -
+}
+existing_dbs() { # existing_dbs USER NAME...  (prints the names that exist, one per line)
+  local u="$1" list="" n; shift
+  for n in "$@"; do list="${list:+$list, }$(sql_text "$n")"; done
+  printf '%s\n' "SELECT datname FROM pg_database WHERE datname IN ($list);" | run_sql "$u" 2>/dev/null | tr -d '\r' || true
+}
+
 wait_healthy() { # wait_healthy [SERVICE] [TRIES]  (one try = 5 seconds)
   local service="${1:-server}" tries="${2:-$SERVER_TRIES}" id status i=0
   id="$(docker compose ps -q "$service" 2>/dev/null | head -n 1)"
@@ -226,8 +238,26 @@ cmd_restore() {
     docker compose up -d
     fail "The database could not be restored (errors above). Your current data was NOT changed."
   fi
-  docker compose exec -T db dropdb -U "$user" --if-exists --force "$db"
-  docker compose exec -T db psql -U "$user" -d postgres -v ON_ERROR_STOP=1 -c "ALTER DATABASE \"${db}_restore\" RENAME TO \"$db\"" >/dev/null
+  # Swap safely: both renames run in one transaction, and the previous database is dropped only after
+  # the restored one is confirmed under the live name.
+  docker compose exec -T db dropdb -U "$user" --if-exists --force "${db}_old"
+  swap_ok=1
+  printf '%s\n' \
+    "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname IN ($(sql_text "$db"), $(sql_text "${db}_restore")) AND pid <> pg_backend_pid();" \
+    "BEGIN;" \
+    "ALTER DATABASE $(sql_ident "$db") RENAME TO $(sql_ident "${db}_old");" \
+    "ALTER DATABASE $(sql_ident "${db}_restore") RENAME TO $(sql_ident "$db");" \
+    "COMMIT;" | run_sql "$user" >/dev/null || swap_ok=0
+  existing="$(existing_dbs "$user" "$db" "${db}_old" "${db}_restore")"
+  if [ "$swap_ok" -ne 1 ] || ! printf '%s\n' "$existing" | grep -qxF "$db" || printf '%s\n' "$existing" | grep -qxF "${db}_restore"; then
+    if ! printf '%s\n' "$existing" | grep -qxF "$db" && printf '%s\n' "$existing" | grep -qxF "${db}_old"; then
+      printf '%s\n' "ALTER DATABASE $(sql_ident "${db}_old") RENAME TO $(sql_ident "$db");" | run_sql "$user" >/dev/null || true
+    fi
+    docker compose exec -T db rm -f /tmp/bangla-crm-restore.dump || true
+    docker compose up -d || true
+    fail "The restored database could not be switched in. Your current data was NOT changed (the restored copy is kept as ${db}_restore if it exists)."
+  fi
+  docker compose exec -T db dropdb -U "$user" --if-exists --force "${db}_old" || true
   docker compose exec -T db rm -f /tmp/bangla-crm-restore.dump
 
   # The restored data is encrypted with the key from the backup's settings.

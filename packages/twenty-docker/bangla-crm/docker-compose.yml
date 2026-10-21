@@ -22,6 +22,8 @@ x-bangla-crm-env: &bangla-crm-env
   # Sender name of system emails (password reset, verification). A value saved in the
   # Admin Panel takes precedence over this default.
   EMAIL_FROM_NAME: ${EMAIL_FROM_NAME:-Bangla CRM}
+  # Your data stays with you: no usage telemetry to twenty-telemetry.com (on by default upstream).
+  TELEMETRY_ENABLED: ${TELEMETRY_ENABLED:-false}
 
 services:
   server:

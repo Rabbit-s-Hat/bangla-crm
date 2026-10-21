@@ -155,11 +155,25 @@ jobs:
         if: failure()
         run: docker compose logs --tail 300 || true
 
+  # Windows PowerShell 5.1 behaviour cannot be seen on the Linux Docker host above: stub-test the
+  # Windows restore (SQL on stdin, safe database swap) with the real powershell.exe.
+  windows-scripts:
+    if: github.repository == 'Rabbit-s-Hat/bangla-crm'
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: packages/twenty-docker/bangla-crm
+      - name: Restore stub test (Windows PowerShell 5.1)
+        shell: cmd
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File packages\twenty-docker\bangla-crm\tests\restore-stub.ps1
+
   # On a release tag, publish the customer install package as a GitHub Release zip, with TAG in
   # .env.example pinned to the image built above and source links pinned to this tag (AGPL section 13).
   package:
     if: github.repository == 'Rabbit-s-Hat/bangla-crm' && github.event_name == 'push'
-    needs: [build, smoke-test]
+    needs: [build, smoke-test, windows-scripts]
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:

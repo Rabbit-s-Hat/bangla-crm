@@ -125,6 +125,32 @@ function Test-DockerCommand([string[]]$ArgList) {
     }
 }
 
+# SQL is sent to psql on stdin, never as a -c argument: Windows PowerShell 5.1 strips the inner double
+# quotes from native-command arguments, which breaks quoted identifiers such as "default" (a reserved word).
+function ConvertTo-SqlIdent([string]$Name) { '"' + $Name.Replace('"', '""') + '"' }
+function ConvertTo-SqlText([string]$Text) { "'" + $Text.Replace("'", "''") + "'" }
+
+function Invoke-Sql([string]$Sql) {
+    $user = Get-EnvValue 'PG_DATABASE_USER' 'postgres'
+    $a = @('compose', 'exec', '-T', 'db', 'psql', '-U', $user, '-d', 'postgres', '-v', 'ON_ERROR_STOP=1', '-q', '-t', '-A', '-f', '-')
+    $old = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'
+    try {
+        $out = $Sql | & docker @a
+        return @{ Code = $LASTEXITCODE; Output = (($out | Out-String).Trim()) }
+    } finally {
+        $ErrorActionPreference = $old
+    }
+}
+
+# Names (one per line) of the given databases that exist.
+function Get-ExistingDatabases([string[]]$Names) {
+    $list = ($Names | ForEach-Object { ConvertTo-SqlText $_ }) -join ', '
+    $r = Invoke-Sql ('SELECT datname FROM pg_database WHERE datname IN (' + $list + ');')
+    if ($r.Code -ne 0) { return @() }
+    return @($r.Output -split "`r?`n" | ForEach-Object { $_.Trim() } | Where-Object { $_ })
+}
+
 function Get-ContainerId([string]$Service, [switch]$All) {
     $a = @('compose', 'ps', '-q')
     if ($All) { $a += '-a' }
@@ -336,9 +362,29 @@ function Invoke-Restore([string]$BackupDir, [switch]$Yes) {
         Invoke-Docker @('compose', 'up', '-d') -AllowFail | Out-Null
         Fail 'The database could not be restored (errors above). Your current data was NOT changed.'
     }
-    Invoke-Docker @('compose', 'exec', '-T', 'db', 'dropdb', '-U', $user, '--if-exists', '--force', $db) | Out-Null
-    Invoke-Docker @('compose', 'exec', '-T', 'db', 'psql', '-U', $user, '-d', 'postgres', '-v', 'ON_ERROR_STOP=1', '-c',
-        ('ALTER DATABASE "' + $tmp + '" RENAME TO "' + $db + '"')) | Out-Null
+    # Swap safely: both renames run in one transaction, and the previous database is dropped only after
+    # the restored one is confirmed under the live name.
+    $oldDb = $db + '_old'
+    Invoke-Docker @('compose', 'exec', '-T', 'db', 'dropdb', '-U', $user, '--if-exists', '--force', $oldDb) | Out-Null
+    $swap = @(
+        ('SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname IN (' + (ConvertTo-SqlText $db) + ', ' +
+            (ConvertTo-SqlText $tmp) + ') AND pid <> pg_backend_pid();'),
+        'BEGIN;',
+        ('ALTER DATABASE ' + (ConvertTo-SqlIdent $db) + ' RENAME TO ' + (ConvertTo-SqlIdent $oldDb) + ';'),
+        ('ALTER DATABASE ' + (ConvertTo-SqlIdent $tmp) + ' RENAME TO ' + (ConvertTo-SqlIdent $db) + ';'),
+        'COMMIT;'
+    ) -join "`n"
+    $swapCode = (Invoke-Sql $swap).Code
+    $existing = Get-ExistingDatabases @($db, $oldDb, $tmp)
+    if (($swapCode -ne 0) -or ($existing -notcontains $db) -or ($existing -contains $tmp)) {
+        if (($existing -notcontains $db) -and ($existing -contains $oldDb)) {
+            Invoke-Sql ('ALTER DATABASE ' + (ConvertTo-SqlIdent $oldDb) + ' RENAME TO ' + (ConvertTo-SqlIdent $db) + ';') | Out-Null
+        }
+        Invoke-Docker @('compose', 'exec', '-T', 'db', 'rm', '-f', '/tmp/bangla-crm-restore.dump') -AllowFail | Out-Null
+        Invoke-Docker @('compose', 'up', '-d') -AllowFail | Out-Null
+        Fail ("The restored database could not be switched in. Your current data was NOT changed (the restored copy is kept as $tmp if it exists).")
+    }
+    Invoke-Docker @('compose', 'exec', '-T', 'db', 'dropdb', '-U', $user, '--if-exists', '--force', $oldDb) -AllowFail | Out-Null
     Invoke-Docker @('compose', 'exec', '-T', 'db', 'rm', '-f', '/tmp/bangla-crm-restore.dump') | Out-Null
 
     # The restored data is encrypted with the key from the backup's settings.
