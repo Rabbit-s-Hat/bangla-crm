@@ -1,4 +1,4 @@
-# Everyday commands for Bangla CRM on Windows. Double-click the .cmd files in this folder, or run
+# Everyday commands for BanglaCRM on Windows. Double-click the .cmd files in this folder, or run
 # from a Command Prompt here (the .cmd files pass options through):
 #   Start-Bangla-CRM.cmd / Stop-Bangla-CRM.cmd     start (and open the browser) / stop (data is kept)
 #   Backup-Bangla-CRM.cmd [-KeepDays N]           save database + uploaded files + settings into backups\<date-time>\
@@ -35,7 +35,7 @@ function Main {
         'start' { Start-All; Open-BanglaCrm }
         'stop' {
             Invoke-Docker @('compose', 'stop') | Out-Null
-            Say 'Bangla CRM is stopped. Your data is kept.'
+            Say 'BanglaCRM is stopped. Your data is kept.'
         }
         'restart' {
             Invoke-Docker @('compose', 'stop') | Out-Null

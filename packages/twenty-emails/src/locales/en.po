@@ -378,3 +378,8 @@ msgstr "Visit the website of Twenty, the open-source CRM this product is built o
 #: src/components/Footer.tsx
 msgid "Free and open-source software (AGPL-3.0)"
 msgstr "Free and open-source software (AGPL-3.0)"
+
+#. js-lingui-explicit-id
+#: src/components/Footer.tsx
+msgid "{PRODUCT_NAME} is a {COMPANY_NAME} product"
+msgstr "{PRODUCT_NAME} is a {COMPANY_NAME} product"

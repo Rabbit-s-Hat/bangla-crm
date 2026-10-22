@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Bangla CRM installer for macOS and Linux.
+# BanglaCRM installer for macOS and Linux.
 #   bash install.sh                       this computer only, at http://localhost:3000
 #   bash install.sh --port 3100           use another port
 #   bash install.sh --lan                 also reachable from other computers on your network
@@ -70,14 +70,14 @@ operator_ip() { # the public address this SSH session comes from (for the cloud 
   printf '%s' "$ip"
 }
 
-say "== Bangla CRM installer =="
+say "== BanglaCRM installer =="
 
 # The image is built for x86-64. macOS (Docker Desktop) emulates it; Linux on ARM usually cannot.
 if [ "$(uname)" != "Darwin" ]; then
   case "$(uname -m)" in
     x86_64|amd64) ;;
     *) [ -e /proc/sys/fs/binfmt_misc/qemu-x86_64 ] ||
-         fail "This computer has an ARM processor ($(uname -m)). Bangla CRM needs an x86-64 (Intel/AMD) computer or server." ;;
+         fail "This computer has an ARM processor ($(uname -m)). BanglaCRM needs an x86-64 (Intel/AMD) computer or server." ;;
   esac
 fi
 require_docker
@@ -87,10 +87,10 @@ if [ -f .env ]; then
   say "Keeping the existing .env (its secrets are never replaced)."
   NEW_ENV=0
 else
-  [ -f .env.example ] || fail ".env.example is missing. Download the complete Bangla CRM package again."
+  [ -f .env.example ] || fail ".env.example is missing. Download the complete BanglaCRM package again."
   if volume_exists db-data; then
-    fail "Bangla CRM data already exists on this computer (from another Bangla CRM folder).
-  Copy the .env file (and the backups folder) from your previous Bangla CRM folder into this folder,
+    fail "BanglaCRM data already exists on this computer (from another BanglaCRM folder).
+  Copy the .env file (and the backups folder) from your previous BanglaCRM folder into this folder,
   then run the installer again. You can also use env.txt from a backup, renamed to .env.
   To update, you do not need a new folder:  bash bangla-crm.sh update   in your existing folder."
   fi
@@ -164,7 +164,7 @@ if [ -n "$(env_get DOMAIN)" ] && ! is_running caddy; then
 fi
 
 # --- Download and start -----------------------------------------------------------------------
-say "Downloading Bangla CRM $(env_get TAG latest). The first download is about 1 GB and can take a while..."
+say "Downloading BanglaCRM $(env_get TAG latest). The first download is about 1 GB and can take a while..."
 if ! docker compose pull; then
   fail "Download failed. Check the internet connection. If the message says 'denied' or 'not found', version '$(env_get TAG latest)' is not published."
 fi
@@ -172,7 +172,7 @@ start_all
 
 say ""
 if [ -n "$(env_get DOMAIN)" ]; then
-  say "Bangla CRM is running at: $(env_get SERVER_URL)"
+  say "BanglaCRM is running at: $(env_get SERVER_URL)"
   say "(The HTTPS certificate is requested on the first visit. If that fails, check that $(env_get DOMAIN) points to this server and ports 80/443 are open.)"
   if [ "$(env_get SETUP_GATE off)" = on ]; then
     say ""

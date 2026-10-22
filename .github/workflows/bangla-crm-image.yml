@@ -1,8 +1,8 @@
-name: Bangla CRM image
+name: BanglaCRM image
 
 # Builds the all-in-one image (server + front end, bn-BD compiled), smoke-tests it with the customer
 # install package on a real Docker host, and on a release tag publishes the install package zip.
-#   - Manual run (Actions tab -> "Bangla CRM image" -> Run workflow): builds and tests a test tag
+#   - Manual run (Actions tab -> "BanglaCRM image" -> Run workflow): builds and tests a test tag
 #     such as 0.1.0-rc.1. It never moves :latest and never publishes a release.
 #   - Push a tag `bangla-vX.Y.Z`: builds X.Y.Z (+ :latest for stable versions), tests it, and
 #     publishes the GitHub Release zip.
@@ -84,11 +84,11 @@ jobs:
             APP_VERSION=${{ steps.meta.outputs.tag }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: |
-            org.opencontainers.image.title=Bangla CRM
+            org.opencontainers.image.title=BanglaCRM
             org.opencontainers.image.source=https://github.com/Rabbit-s-Hat/bangla-crm
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.version=${{ steps.meta.outputs.tag }}
-            org.opencontainers.image.description=Bangla CRM - a Bangla-first build of Twenty (AGPL-3.0). Source: https://github.com/Rabbit-s-Hat/bangla-crm
+            org.opencontainers.image.description=BanglaCRM - a Bangla-first build of Twenty (AGPL-3.0). Source: https://github.com/Rabbit-s-Hat/bangla-crm
             org.opencontainers.image.licenses=AGPL-3.0-only
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -124,7 +124,7 @@ jobs:
           curl -fsS http://localhost:3000/healthz
           # The server only serves the app document to browser-like requests (Accept: text/html).
           curl -fsS -H 'Accept: text/html' http://localhost:3000/ | grep -q 'lang="bn"'
-          curl -fsS -H 'Accept: text/html' http://localhost:3000/ | grep -q '<title>Bangla CRM</title>'
+          curl -fsS -H 'Accept: text/html' http://localhost:3000/ | grep -q '<title>BanglaCRM</title>'
           # Bangla text must be in the front-end build (literal or \u09xx-escaped) and the server catalogue must exist.
           docker cp "$(docker compose ps -q server):/app/packages/twenty-server/dist" /tmp/dist
           grep -rlqP '[\x{0980}-\x{09FF}]{3}|(\\u09[0-9a-fA-F]{2}){3}' /tmp/dist/front || { echo "::error::Bangla front-end strings not found in the image"; exit 1; }
@@ -232,5 +232,5 @@ jobs:
           PRE=""
           case "$VERSION" in *-*) PRE="--prerelease" ;; esac
           gh release create "$GITHUB_REF_NAME" "dist/$PKG.zip" $PRE \
-            --title "Bangla CRM $VERSION" \
-            --notes "Install package for Bangla CRM $VERSION (see README.md / README.bn.md inside the zip). Docker image: ghcr.io/rabbit-s-hat/bangla-crm:$VERSION. Source code: https://github.com/Rabbit-s-Hat/bangla-crm/tree/$GITHUB_REF_NAME (AGPL-3.0)."
+            --title "BanglaCRM $VERSION" \
+            --notes "Install package for BanglaCRM $VERSION (see README.md / README.bn.md inside the zip). Docker image: ghcr.io/rabbit-s-hat/bangla-crm:$VERSION. Source code: https://github.com/Rabbit-s-Hat/bangla-crm/tree/$GITHUB_REF_NAME (AGPL-3.0)."

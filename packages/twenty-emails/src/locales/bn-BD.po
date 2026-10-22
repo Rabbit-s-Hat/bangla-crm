@@ -378,3 +378,8 @@ msgstr "Twenty-র ওয়েবসাইট দেখুন, যে ওপে
 #: src/components/Footer.tsx
 msgid "Free and open-source software (AGPL-3.0)"
 msgstr "মুক্ত ও ওপেন-সোর্স সফটওয়্যার (AGPL-3.0)"
+
+#. js-lingui-explicit-id
+#: src/components/Footer.tsx
+msgid "{PRODUCT_NAME} is a {COMPANY_NAME} product"
+msgstr "{PRODUCT_NAME} একটি {COMPANY_NAME} পণ্য"

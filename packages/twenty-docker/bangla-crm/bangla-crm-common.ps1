@@ -235,7 +235,7 @@ function Wait-Healthy([string]$Service = 'server', [int]$Tries = 0) {
 
 # Start everything: database first, then the server (with a visible progress line), then the rest.
 function Start-All {
-    Say 'Starting Bangla CRM. The first start sets up the database and can take 5-15 minutes; later starts take about a minute.'
+    Say 'Starting BanglaCRM. The first start sets up the database and can take 5-15 minutes; later starts take about a minute.'
     Invoke-Docker @('compose', 'up', '-d', 'db', 'redis') | Out-Null
     Wait-Healthy 'db' 60
     Invoke-Docker @('compose', 'up', '-d', 'server') | Out-Null
@@ -246,7 +246,7 @@ function Start-All {
 function Open-BanglaCrm {
     $url = Get-LocalUrl
     try { Start-Process $url } catch { }
-    Say ('Bangla CRM: ' + $url)
+    Say ('BanglaCRM: ' + $url)
 }
 
 # A port is unusable if something listens on it OR Windows reserved it (excluded port ranges).
@@ -357,7 +357,7 @@ function Invoke-Restore([string]$BackupDir, [switch]$Yes) {
     if (-not (Test-Path -LiteralPath $dump) -or (Get-Item -LiteralPath $dump).Length -eq 0) { Fail ("$dump not found or empty.") }
 
     if (-not $Yes) {
-        Say ("This REPLACES everything in Bangla CRM with the backup in $dir.")
+        Say ("This REPLACES everything in BanglaCRM with the backup in $dir.")
         Say '(A safety backup of the current data is made first.)'
         $answer = Read-Host 'Type RESTORE to continue'
         if ($answer -cne 'RESTORE') { Fail 'Cancelled. Nothing was changed.' }
@@ -465,22 +465,22 @@ function Invoke-Update([string]$Version = '', [switch]$AllowDowngrade) {
             $Version = Get-LatestRelease
             if (-not $Version) { Fail 'Could not check for new versions (no internet?). You can name one: Update-Bangla-CRM.cmd -Version 0.2.0' }
             if (($Version -eq $oldVersion) -or ((Test-Version $Version) -and (Test-VersionOlder $Version $oldVersion))) {
-                Say ("Bangla CRM is up to date (version $oldVersion; newest release: $Version).")
+                Say ("BanglaCRM is up to date (version $oldVersion; newest release: $Version).")
                 return
             }
         }
     }
     if (-not (Test-Version $Version)) { Fail 'Version must look like 0.2.0.' }
-    if (($Version -eq $oldVersion) -and ($oldVersion -ne 'latest')) { Say ("Bangla CRM is already running version $oldVersion."); return }
+    if (($Version -eq $oldVersion) -and ($oldVersion -ne 'latest')) { Say ("BanglaCRM is already running version $oldVersion."); return }
     if (($Version -ne 'latest') -and ($oldVersion -ne 'latest') -and (Test-VersionOlder $Version $oldVersion) -and (-not $AllowDowngrade)) {
         Fail ("$Version is OLDER than the installed $oldVersion. An older version may not work with the newer database. " +
             "Restoring a backup made with $Version is safer; to go back anyway: Update-Bangla-CRM.cmd -Version $Version -AllowDowngrade")
     }
-    Say ("Updating Bangla CRM: $oldVersion -> $Version")
+    Say ("Updating BanglaCRM: $oldVersion -> $Version")
 
     # 1. Download while the current version keeps running (TAG from the environment overrides .env for this command only).
     $oldId = Get-ImageId $oldVersion
-    Say ("Downloading version $Version (Bangla CRM keeps running meanwhile)...")
+    Say ("Downloading version $Version (BanglaCRM keeps running meanwhile)...")
     $savedTag = $env:TAG
     $env:TAG = $Version
     try {
@@ -488,9 +488,9 @@ function Invoke-Update([string]$Version = '', [switch]$AllowDowngrade) {
     } finally {
         $env:TAG = $savedTag
     }
-    if ($code -ne 0) { Fail ("Download failed. Nothing was changed; Bangla CRM keeps running version $oldVersion.") }
+    if ($code -ne 0) { Fail ("Download failed. Nothing was changed; BanglaCRM keeps running version $oldVersion.") }
     $newId = Get-ImageId $Version
-    if ($oldId -and ($newId -eq $oldId)) { Say ("Bangla CRM is up to date (the newest $Version is already installed)."); return }
+    if ($oldId -and ($newId -eq $oldId)) { Say ("BanglaCRM is up to date (the newest $Version is already installed)."); return }
 
     # 2. Back up right before switching, so the backup holds the latest data.
     Say 'Making a backup before switching...'
@@ -501,7 +501,7 @@ function Invoke-Update([string]$Version = '', [switch]$AllowDowngrade) {
     Set-EnvValue 'TAG' $Version
     try {
         Start-All
-        Say ("Bangla CRM is now running version $Version. (Backup from before the update: $preBackup)")
+        Say ("BanglaCRM is now running version $Version. (Backup from before the update: $preBackup)")
         if ($oldId) {   # free the disk space of the previous version
             $old = if ($oldVersion -eq 'latest') { $oldId } else { $script:Image + ':' + $oldVersion }
             Test-DockerCommand @('image', 'rm', $old) | Out-Null
@@ -515,5 +515,5 @@ function Invoke-Update([string]$Version = '', [switch]$AllowDowngrade) {
     # With TAG=latest the download moved the "latest" name to the new image: point it back at the old one.
     if ($oldId) { Invoke-Docker @('tag', $oldId, ($script:Image + ':' + $oldVersion)) -AllowFail | Out-Null }
     Invoke-Restore $preBackup -Yes
-    Fail ("The update to $Version failed, and Bangla CRM was put back to $oldVersion. Please contact support with the output of: docker compose logs server")
+    Fail ("The update to $Version failed, and BanglaCRM was put back to $oldVersion. Please contact support with the output of: docker compose logs server")
 }

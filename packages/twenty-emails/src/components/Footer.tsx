@@ -1,10 +1,10 @@
 import { type I18n } from '@lingui/core';
 import { Column, Container, Row } from 'react-email';
-import { PRODUCT_NAME } from 'twenty-shared/translations';
+import { COMPANY_NAME, PRODUCT_NAME } from 'twenty-shared/translations';
 import { Link } from 'src/components/Link';
 import { ShadowText } from 'src/components/ShadowText';
 
-// Bangla CRM: the footer names this product, links to its source code (AGPL section 13)
+// BanglaCRM: the footer names this product and its maker, links to its source code (AGPL section 13)
 // and says truthfully that it is built on Twenty.
 const SOURCE_CODE_URL = 'https://github.com/Rabbit-s-Hat/bangla-crm';
 const TWENTY_URL = 'https://twenty.com/';
@@ -44,7 +44,10 @@ export const Footer = ({ i18n }: FooterProps) => {
       </Row>
       <ShadowText>
         <>
-          {PRODUCT_NAME}
+          {i18n._('{PRODUCT_NAME} is a {COMPANY_NAME} product', {
+            PRODUCT_NAME,
+            COMPANY_NAME,
+          })}
           <br />
           {i18n._('Free and open-source software (AGPL-3.0)')}
         </>

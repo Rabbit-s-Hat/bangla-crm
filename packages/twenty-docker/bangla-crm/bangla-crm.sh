@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Everyday commands for Bangla CRM on macOS and Linux. Run them from this folder:
-#   bash bangla-crm.sh start                     start Bangla CRM and open it in the browser
+# Everyday commands for BanglaCRM on macOS and Linux. Run them from this folder:
+#   bash bangla-crm.sh start                     start BanglaCRM and open it in the browser
 #   bash bangla-crm.sh stop                      stop it (your data is kept)
 #   bash bangla-crm.sh restart | status | open
 #   bash bangla-crm.sh logs                      follow the logs (Ctrl+C to quit)
@@ -145,7 +145,7 @@ wait_healthy() { # wait_healthy [SERVICE] [TRIES]  (one try = 5 seconds)
 
 # Start everything: database first, then the server (with a visible progress line), then the rest.
 start_all() {
-  say "Starting Bangla CRM. The first start sets up the database and can take 5-15 minutes; later starts take about a minute."
+  say "Starting BanglaCRM. The first start sets up the database and can take 5-15 minutes; later starts take about a minute."
   docker compose up -d db redis
   wait_healthy db 60
   docker compose up -d server
@@ -161,7 +161,7 @@ open_browser() {
   elif command -v xdg-open >/dev/null 2>&1 && [ -n "${DISPLAY:-}${WAYLAND_DISPLAY:-}" ]; then
     xdg-open "$url" >/dev/null 2>&1 || true
   fi
-  say "Bangla CRM: $url"
+  say "BanglaCRM: $url"
 }
 
 free_kb() { df -Pk "${1:-.}" | awk 'NR == 2 { print $4 }'; }
@@ -240,7 +240,7 @@ cmd_restore() {
   [ -s "$dir/database.dump" ] || fail "$dir/database.dump not found or empty."
 
   if [ "$yes" -eq 0 ]; then
-    say "This REPLACES everything in Bangla CRM with the backup in $dir."
+    say "This REPLACES everything in BanglaCRM with the backup in $dir."
     say "(A safety backup of the current data is made first.)"
     printf 'Type RESTORE to continue: '
     read -r answer || answer=""
@@ -341,31 +341,31 @@ cmd_update() {
       new_version="$(latest_release)"
       [ -n "$new_version" ] || fail "Could not check for new versions (no internet?). You can name one: bash bangla-crm.sh update --version 0.2.0"
       if [ "$new_version" = "$old_version" ] || { valid_version "$new_version" && version_lt "$new_version" "$old_version"; }; then
-        say "Bangla CRM is up to date (version $old_version; newest release: $new_version)."
+        say "BanglaCRM is up to date (version $old_version; newest release: $new_version)."
         return 0
       fi
     fi
   fi
   valid_version "$new_version" || fail "Version must look like 0.2.0."
   if [ "$new_version" = "$old_version" ] && [ "$old_version" != latest ]; then
-    say "Bangla CRM is already running version $old_version."
+    say "BanglaCRM is already running version $old_version."
     return 0
   fi
   if [ "$new_version" != latest ] && [ "$old_version" != latest ] && version_lt "$new_version" "$old_version" &&
     [ "$allow_downgrade" -ne 1 ]; then
     fail "$new_version is OLDER than the installed $old_version. An older version may not work with the newer database. Restoring a backup made with $new_version is safer; to go back anyway: bash bangla-crm.sh update --version $new_version --allow-downgrade"
   fi
-  say "Updating Bangla CRM: $old_version -> $new_version"
+  say "Updating BanglaCRM: $old_version -> $new_version"
 
   # 1. Download while the current version keeps running (TAG from the shell overrides .env for this command only).
   old_id="$(image_id "$old_version")"
-  say "Downloading version $new_version (Bangla CRM keeps running meanwhile)..."
+  say "Downloading version $new_version (BanglaCRM keeps running meanwhile)..."
   if ! TAG="$new_version" docker compose pull; then
-    fail "Download failed. Nothing was changed; Bangla CRM keeps running version $old_version."
+    fail "Download failed. Nothing was changed; BanglaCRM keeps running version $old_version."
   fi
   new_id="$(image_id "$new_version")"
   if [ -n "$old_id" ] && [ "$new_id" = "$old_id" ]; then
-    say "Bangla CRM is up to date (the newest $new_version is already installed)."
+    say "BanglaCRM is up to date (the newest $new_version is already installed)."
     return 0
   fi
 
@@ -377,7 +377,7 @@ cmd_update() {
   # 3. Switch.
   set_env TAG "$new_version"
   if ( start_all ); then
-    say "Bangla CRM is now running version $new_version. (Backup from before the update: $pre_backup)"
+    say "BanglaCRM is now running version $new_version. (Backup from before the update: $pre_backup)"
     if [ -n "$old_id" ]; then # free the disk space of the previous version
       if [ "$old_version" = latest ]; then docker image rm "$old_id" >/dev/null 2>&1 || true
       else docker image rm "$IMAGE:$old_version" >/dev/null 2>&1 || true; fi
@@ -390,7 +390,7 @@ cmd_update() {
   # With TAG=latest the download moved the "latest" name to the new image: point it back at the old one.
   if [ -n "$old_id" ]; then docker tag "$old_id" "$IMAGE:$old_version" || true; fi
   cmd_restore "$pre_backup" --yes
-  fail "The update to $new_version failed, and Bangla CRM was put back to $old_version. Please contact support with: docker compose logs server"
+  fail "The update to $new_version failed, and BanglaCRM was put back to $old_version. Please contact support with: docker compose logs server"
 }
 
 cmd_finish_setup() {
@@ -410,7 +410,7 @@ main() {
   esac
   case "$cmd" in
     start)   start_all; open_browser ;;
-    stop)    docker compose stop; say "Bangla CRM is stopped. Your data is kept." ;;
+    stop)    docker compose stop; say "BanglaCRM is stopped. Your data is kept." ;;
     restart) docker compose stop; start_all; open_browser ;;
     status)  docker compose ps ;;
     logs)    docker compose logs -f --tail 200 server worker ;;

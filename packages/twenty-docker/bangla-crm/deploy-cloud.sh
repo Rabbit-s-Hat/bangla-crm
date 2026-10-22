@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Put Bangla CRM on an Ubuntu cloud server (22.04 or 24.04, x86-64) with HTTPS.
+# Put BanglaCRM on an Ubuntu cloud server (22.04 or 24.04, x86-64) with HTTPS.
 #   sudo bash deploy-cloud.sh crm.example.com you@example.com [--version 0.1.0]
 #
 # Before running:
@@ -7,7 +7,7 @@
 #   2. Point your domain's DNS "A" record to the server's public IP address.
 #   3. Copy this whole folder to the server and run the command above inside it, over SSH.
 # The script installs Docker (if missing), opens ports 80/443 in ufw (if active), offers a swap
-# file and a nightly backup, then installs Bangla CRM in setup mode (only your IP can open it
+# file and a nightly backup, then installs BanglaCRM in setup mode (only your IP can open it
 # until you have signed up and run: sudo bash bangla-crm.sh finish-setup).
 if [ -z "${BASH_VERSION:-}" ]; then echo "Please run this with bash:  sudo bash deploy-cloud.sh ..."; exit 1; fi
 set -euo pipefail
@@ -34,10 +34,10 @@ while [ $# -gt 0 ]; do
 done
 
 [ "$(id -u)" -eq 0 ] || fail "Run this with sudo:  sudo bash deploy-cloud.sh $DOMAIN $EMAIL"
-{ [ -f install.sh ] && [ -f docker-compose.cloud.yml ]; } || fail "Run this inside the complete Bangla CRM folder."
+{ [ -f install.sh ] && [ -f docker-compose.cloud.yml ]; } || fail "Run this inside the complete BanglaCRM folder."
 case "$(uname -m)" in
   x86_64|amd64) ;;
-  *) fail "This server has an ARM processor ($(uname -m)). Bangla CRM needs an x86-64 (Intel/AMD) server." ;;
+  *) fail "This server has an ARM processor ($(uname -m)). BanglaCRM needs an x86-64 (Intel/AMD) server." ;;
 esac
 
 # --- Docker ------------------------------------------------------------------------------------
@@ -99,7 +99,7 @@ if [ "$MEM_MB" -lt 3500 ] && [ "$SWAP_MB" -lt 1024 ] && [ ! -e /swapfile ]; then
   fi
 fi
 
-# --- Nightly backup (asked now, so the last message you see is "Bangla CRM is running") ------
+# --- Nightly backup (asked now, so the last message you see is "BanglaCRM is running") ------
 HERE="$(pwd)"
 if [ ! -f /etc/cron.d/bangla-crm-backup ] && ask_yes "Make a backup every night at 02:30 (Bangladesh time) and keep the last 14 days?"; then
   # Convert 02:30 Asia/Dhaka to this server's clock (cloud servers usually run on UTC).
@@ -109,7 +109,7 @@ EOF
   mkdir -p "$HERE/backups"
   chmod 700 "$HERE/backups"
   cat > /etc/cron.d/bangla-crm-backup <<EOF
-# Bangla CRM nightly backup at 02:30 Asia/Dhaka (created by deploy-cloud.sh)
+# BanglaCRM nightly backup at 02:30 Asia/Dhaka (created by deploy-cloud.sh)
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
 $CRON_M $CRON_H * * * root cd "$HERE" && bash bangla-crm.sh backup --keep-days 14 >> "$HERE/backups/backup.log" 2>&1
 EOF

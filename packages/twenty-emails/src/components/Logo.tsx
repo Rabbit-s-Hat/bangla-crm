@@ -1,7 +1,7 @@
 import { Column, Row, Section, Text } from 'react-email';
 import { PRODUCT_NAME } from 'twenty-shared/translations';
 
-// Bangla CRM: a self-contained text mark instead of an image hosted on twenty.com.
+// BanglaCRM: a self-contained text mark instead of an image hosted on twenty.com.
 const containerStyle = {
   marginBottom: '40px',
 };

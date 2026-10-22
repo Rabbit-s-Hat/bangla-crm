@@ -6,7 +6,7 @@
 # else can sign up first and become administrator. `sudo bash bangla-crm.sh finish-setup` turns it off.
 (gate-on) {
 	@not_owner not remote_ip {$SETUP_ALLOW_IP:127.0.0.1}
-	respond @not_owner "Bangla CRM is being set up. Please try again later." 403
+	respond @not_owner "BanglaCRM is being set up. Please try again later." 403
 }
 (gate-off) {
 	header -Server

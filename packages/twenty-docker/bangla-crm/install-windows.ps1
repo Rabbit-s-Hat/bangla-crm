@@ -1,4 +1,4 @@
-# Bangla CRM installer for Windows 10/11 (needs Docker Desktop).
+# BanglaCRM installer for Windows 10/11 (needs Docker Desktop).
 # Easiest: double-click Install-Bangla-CRM.cmd. With options, from a Command Prompt in this folder:
 #   Install-Bangla-CRM.cmd                  this computer only, at http://localhost:3000
 #   Install-Bangla-CRM.cmd -Port 3100       use another port
@@ -59,7 +59,7 @@ function Install-DockerDesktop {
 }
 
 function Main {
-    Say '== Bangla CRM installer =='
+    Say '== BanglaCRM installer =='
     if ($Version -and -not (Test-Version $Version)) { Fail '-Version must look like 0.1.0.' }
     if ($Port -ne 0 -and ($Port -lt 1 -or $Port -gt 65535)) { Fail '-Port must be a number from 1 to 65535.' }
 
@@ -73,10 +73,10 @@ function Main {
         Say 'Keeping the existing .env (its secrets are never replaced).'
     } else {
         $example = Join-Path $script:Root '.env.example'
-        if (-not (Test-Path -LiteralPath $example)) { Fail '.env.example is missing. Download the complete Bangla CRM package again.' }
+        if (-not (Test-Path -LiteralPath $example)) { Fail '.env.example is missing. Download the complete BanglaCRM package again.' }
         if (Test-VolumeExists 'db-data') {
-            Fail ("Bangla CRM data already exists on this computer (from another Bangla CRM folder).`n" +
-                "  Copy the .env file (and the backups folder) from your previous Bangla CRM folder into this folder,`n" +
+            Fail ("BanglaCRM data already exists on this computer (from another BanglaCRM folder).`n" +
+                "  Copy the .env file (and the backups folder) from your previous BanglaCRM folder into this folder,`n" +
                 "  then run the installer again. You can also use env.txt from a backup, renamed to .env.`n" +
                 "  To update, you do not need a new folder: double-click Update-Bangla-CRM.cmd in your existing folder.")
         }
@@ -114,7 +114,7 @@ function Main {
         Fail "Port $httpPort is in use or reserved by Windows. From a Command Prompt in this folder run:  Install-Bangla-CRM.cmd -Port 3100"
     }
 
-    Say ('Downloading Bangla CRM ' + (Get-EnvValue 'TAG' 'latest') + '. The first download is about 1 GB and can take a while...')
+    Say ('Downloading BanglaCRM ' + (Get-EnvValue 'TAG' 'latest') + '. The first download is about 1 GB and can take a while...')
     $code = Invoke-Docker @('compose', 'pull') -AllowFail
     if ($code -ne 0) {
         Fail ("Download failed. Check the internet connection. If the message says 'denied' or 'not found', version '" + (Get-EnvValue 'TAG' 'latest') + "' is not published.")
@@ -125,7 +125,7 @@ function Main {
     try {
         $desktop = [Environment]::GetFolderPath('Desktop')
         if ($desktop) {
-            [System.IO.File]::WriteAllText((Join-Path $desktop 'Bangla CRM.url'), ("[InternetShortcut]`r`nURL=" + (Get-LocalUrl) + "`r`n"), [System.Text.Encoding]::ASCII)
+            [System.IO.File]::WriteAllText((Join-Path $desktop 'BanglaCRM.url'), ("[InternetShortcut]`r`nURL=" + (Get-LocalUrl) + "`r`n"), [System.Text.Encoding]::ASCII)
         }
     } catch { }
 

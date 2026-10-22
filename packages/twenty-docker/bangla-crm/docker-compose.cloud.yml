@@ -1,4 +1,4 @@
-# Cloud add-on: Caddy in front of Bangla CRM with automatic HTTPS (Let's Encrypt).
+# Cloud add-on: Caddy in front of BanglaCRM with automatic HTTPS (Let's Encrypt).
 # Loaded automatically when `.env` contains:
 #   COMPOSE_FILE=docker-compose.yml:docker-compose.cloud.yml
 # The app itself stays bound to 127.0.0.1; only Caddy is reachable from the internet (ports 80/443).
