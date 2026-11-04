@@ -33,7 +33,14 @@ BanglaCRM হলো একটি কাস্টমার রিলেশনশ�
 **ইনস্টলারের অপশন** (অন্য পোর্ট, নেটওয়ার্কে শেয়ার, নির্দিষ্ট ভার্সন): BanglaCRM ফোল্ডারটি খুলুন, ফোল্ডারের ঠিকানার ঘরে `cmd` লিখে Enter চাপুন। তারপর যেমন চালান:
 `Install-Bangla-CRM.cmd -Port 3100`, `Install-Bangla-CRM.cmd -Lan` অথবা `Install-Bangla-CRM.cmd -Version 0.1.0`।
 
-### macOS ও Linux
+### macOS
+আনজিপ করা ফোল্ডারে **`Install-Bangla-CRM.command`** ফাইলে ডাবল-ক্লিক করুন। একটি Terminal উইন্ডো খুলে ইনস্টলার চলবে।
+
+**শুধু প্রথমবার** macOS বলতে পারে, ফাইলটি "অপরিচিত ডেভেলপারের, তাই খোলা যাবে না"। তখন ফাইলটিতে **রাইট-ক্লিক** (বা Control-ক্লিক) করে **Open** বেছে নিন, তারপর আবার **Open** চাপুন। এরপর ফোল্ডারের সব `.command` ফাইল ডাবল-ক্লিকেই চলবে। (অথবা Terminal-এ একবার চালান: `xattr -dr com.apple.quarantine <ফোল্ডারটি>`।)
+
+অপশন দিতে চাইলে Terminal-এ ফোল্ডারের ভেতর থেকে `bash install.sh` চালান।
+
+### Linux (এবং Terminal থেকে macOS)
 ```bash
 bash install.sh
 ```
@@ -85,6 +92,8 @@ BanglaCRM [OpenRouter](https://openrouter.ai)-এর মাধ্যমে AI �
 
 ## ৪. প্রতিদিনের ব্যবহার
 
+macOS-এ কমান্ড টাইপ না করে একই নামের `.command` ফাইলে ডাবল-ক্লিক করতে পারেন (যেমন `Start-Bangla-CRM.command`)।
+
 | কাজ | Windows (ডাবল-ক্লিক; অপশন দিতে ফোল্ডারে `cmd` খুলে চালান) | macOS / Linux |
 |---|---|---|
 | চালু করা | `Start-Bangla-CRM.cmd` | `bash bangla-crm.sh start` |
@@ -92,7 +101,7 @@ BanglaCRM [OpenRouter](https://openrouter.ai)-এর মাধ্যমে AI �
 | ব্যাকআপ | `Backup-Bangla-CRM.cmd` | `bash bangla-crm.sh backup` |
 | সর্বশেষ ভার্সনে আপডেট | `Update-Bangla-CRM.cmd` | `bash bangla-crm.sh update` |
 | নির্দিষ্ট ভার্সনে আপডেট | `Update-Bangla-CRM.cmd -Version 0.2.0` | `bash bangla-crm.sh update --version 0.2.0` |
-| ব্যাকআপ থেকে ফেরত আনা | `Restore-Bangla-CRM.cmd` (কোনটি তা জিজ্ঞেস করবে; অথবা ব্যাকআপ ফোল্ডারটি টেনে এর ওপর ছাড়ুন) | `bash bangla-crm.sh restore backups/<তারিখ-সময়>` |
+| ব্যাকআপ থেকে ফেরত আনা | `Restore-Bangla-CRM.cmd` (কোনটি তা জিজ্ঞেস করবে; অথবা ব্যাকআপ ফোল্ডারটি টেনে এর ওপর ছাড়ুন) | `bash bangla-crm.sh restore backups/<তারিখ-সময়>` (`Restore-Bangla-CRM.command` কোনটি তা জিজ্ঞেস করবে) |
 | লগ দেখা | `Logs-Bangla-CRM.cmd` | `bash bangla-crm.sh logs` |
 | অবস্থা দেখা | `powershell -ExecutionPolicy Bypass -File bangla-crm.ps1 status` | `bash bangla-crm.sh status` |
 
@@ -104,6 +113,7 @@ BanglaCRM [OpenRouter](https://openrouter.ai)-এর মাধ্যমে AI �
   - `files/`: আপলোড করা ফাইল
   - `env.txt`: আপনার সেটিংসের কপি, **এনক্রিপশন কী সহ**
   - `version.txt`: কোন ভার্সনের ব্যাকআপ
+- ব্যাকআপ শুরুর আগে দেখে নেয়, ডিস্কে ডাটাবেসের প্রায় দ্বিগুণ, সঙ্গে সব আপলোড করা ফাইল (আর বাড়তি ১ GB) রাখার জায়গা আছে কি না। কোনো ব্যাকআপ মাঝপথে থেমে গেলে অসম্পূর্ণ ফোল্ডারটি (`<তারিখ-সময়>.partial`) মুছে ফেলা হয়। তাই `backups/`-এ `.partial` ছাড়া যে ফোল্ডার আছে, সেটিই সম্পূর্ণ ব্যাকআপ।
 - **ব্যাকআপ গোপন রাখুন।** যার কাছে ব্যাকআপ থাকবে, সে আপনার CRM-এর সব তথ্য পড়তে পারবে। ব্যাকআপ অন্য কোনো ডিস্কে বা ব্যক্তিগত ক্লাউড ফোল্ডারে কপি করে রাখুন। একই ডিস্কে রাখা ব্যাকআপ ডিস্ক নষ্ট হলে কাজে আসবে না।
 - ক্লাউড সার্ভারে `deploy-cloud.sh` বাংলাদেশ সময় রাত ২:৩০-এ প্রতিদিন ব্যাকআপ নেওয়ার ব্যবস্থা করে দিতে পারে। এতে শেষ ১৪ দিনের ব্যাকআপ থাকে।
 

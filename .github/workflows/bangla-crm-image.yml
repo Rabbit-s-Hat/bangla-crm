@@ -171,6 +171,17 @@ jobs:
       - name: Update stub test (Windows PowerShell 5.1)
         shell: cmd
         run: powershell -NoProfile -ExecutionPolicy Bypass -File packages\twenty-docker\bangla-crm\tests\update-stub.ps1
+      - name: Backup stub test (PowerShell 5.1 and bash)
+        shell: cmd
+        run: |
+          powershell -NoProfile -ExecutionPolicy Bypass -File packages\twenty-docker\bangla-crm\tests\backup-stub.ps1 || exit /b 1
+          bash packages/twenty-docker/bangla-crm/tests/backup-stub.sh
+      - name: macOS launchers parse
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd packages/twenty-docker/bangla-crm
+          for f in *.command; do bash -n "$f"; head -n 1 "$f" | grep -qx '#!/bin/bash'; ! grep -q $'\r' "$f"; done
       - name: Version order (PowerShell 5.1 and bash)
         shell: cmd
         run: |
@@ -218,7 +229,7 @@ jobs:
           sed -i "s/^TAG=latest$/TAG=$VERSION/" "dist/$PKG/.env.example"
           grep -q "^TAG=$VERSION$" "dist/$PKG/.env.example"
           sed -i "s#https://github.com/Rabbit-s-Hat/bangla-crm>#$SRC>#g" "dist/$PKG/README.md" "dist/$PKG/README.bn.md" "dist/$PKG/NOTICE.md"
-          chmod +x "dist/$PKG"/*.sh
+          chmod +x "dist/$PKG"/*.sh "dist/$PKG"/*.command
           (cd dist && zip -r -X "$PKG.zip" "$PKG")
           echo "PKG=$PKG" >> "$GITHUB_ENV"
           echo "VERSION=$VERSION" >> "$GITHUB_ENV"

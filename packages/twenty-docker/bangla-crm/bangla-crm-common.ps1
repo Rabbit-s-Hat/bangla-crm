@@ -5,6 +5,7 @@
 $script:Root = $PSScriptRoot
 $script:StoragePath = '/app/packages/twenty-server/.local-storage'
 $script:ReleasesApi = 'https://api.github.com/repos/Rabbit-s-Hat/bangla-crm/releases/latest'
+$script:ReleasesPage = 'https://github.com/Rabbit-s-Hat/bangla-crm/releases/latest'
 $script:Image = 'ghcr.io/rabbit-s-hat/bangla-crm'
 $script:ServerTries = 360   # x 5 s = 30 minutes (the first start creates the database)
 $script:BackupDir = ''
@@ -286,20 +287,63 @@ function Invoke-Backup([int]$KeepDays = 0) {
     New-Item -ItemType Directory -Force -Path $backups | Out-Null
     Protect-Path $backups
 
-    # Free space: 2x the database size + 1 GB is a safe margin for the dump and files.
+    # Free space: 2x the database size + the uploaded files + 1 GB is a safe margin.
     [long]$dbBytes = 0
     $sizeText = Get-DockerOutput @('compose', 'exec', '-T', 'db', 'psql', '-U', $user, '-d', $db, '-tAc', 'SELECT pg_database_size(current_database())')
     [void][long]::TryParse(($sizeText -replace '[^0-9]', ''), [ref]$dbBytes)
-    $need = 2 * $dbBytes + 1GB
+    $need = 2 * $dbBytes + (Get-UploadedFilesBytes) + 1GB
+    # A backup that was interrupted earlier (power cut, closed window) is never a usable backup: remove it.
+    Get-ChildItem -LiteralPath $backups -Directory |
+        Where-Object { $_.Name -like '*.partial' } |
+        Remove-Item -Recurse -Force -Confirm:$false
     $drive = New-Object System.IO.DriveInfo ([System.IO.Path]::GetPathRoot($backups))
     if ($drive.AvailableFreeSpace -lt $need) {
         Fail ('Not enough free disk space for a backup (need about ' + [int]($need / 1MB) + ' MB). Delete old backups or free some space.')
     }
 
+    # Write into <date-time>.partial and rename only when complete, so a failed backup never looks like a good one.
     $stamp = Get-Date -Format 'yyyy-MM-dd_HHmmss'
-    $dir = Join-Path $backups $stamp
+    $final = Join-Path $backups $stamp
+    $dir = $final + '.partial'
     New-Item -ItemType Directory -Force -Path $dir | Out-Null
+    try {
+        Save-BackupContent $dir $user $db
+        Rename-Item -LiteralPath $dir -NewName $stamp
+    } catch {
+        if (Test-Path -LiteralPath $dir) {
+            Remove-Item -LiteralPath $dir -Recurse -Force -Confirm:$false -ErrorAction SilentlyContinue
+            Say 'The unfinished backup was removed.'
+        }
+        throw
+    }
+    $dir = $final
+    $script:BackupDir = $dir
+    Say ('Backup saved in: ' + $dir)
+    Say 'It contains your encryption key. Keep it private, and copy it to another disk or cloud storage.'
 
+    if ($KeepDays -gt 0) {
+        $limit = (Get-Date).AddDays(-$KeepDays)
+        Get-ChildItem -LiteralPath $backups -Directory |
+            Where-Object { $_.Name -match '^\d{4}-\d{2}-\d{2}_\d{6}$' -and $_.LastWriteTime -lt $limit } |
+            Remove-Item -Recurse -Force -Confirm:$false
+    }
+}
+
+# Size of the uploaded files in bytes (0 when no app container is running to measure them).
+function Get-UploadedFilesBytes {
+    foreach ($svc in @('server', 'worker')) {
+        if (Test-ServiceRunning $svc) {
+            $text = Get-DockerOutput @('compose', 'exec', '-T', $svc, 'du', '-sk', $script:StoragePath)
+            [long]$kb = 0
+            if ([long]::TryParse((([string]$text).Trim() -split '\s+')[0], [ref]$kb)) { return $kb * 1KB }
+        }
+    }
+    return [long]0
+}
+
+# Writes database.dump, files\, version.txt and env.txt into $Dir.
+function Save-BackupContent([string]$Dir, [string]$user, [string]$db) {
+    $dir = $Dir
     Say 'Saving the database...'
     Invoke-Docker @('compose', 'exec', '-T', 'db', 'pg_dump', '-U', $user, '-d', $db, '-Fc', '-f', '/tmp/bangla-crm-backup.dump') | Out-Null
     $dbId = Get-ContainerId 'db' -All
@@ -312,22 +356,12 @@ function Invoke-Backup([int]$KeepDays = 0) {
         Invoke-Docker @('compose', 'create', 'server') -AllowFail | Out-Null
         $serverId = Get-ContainerId 'server' -All
     }
-    if (-not $serverId) { Fail ("Could not reach the uploaded files. The database part of the backup is in $dir.") }
+    if (-not $serverId) { Fail 'Could not reach the uploaded files, so the backup was not completed.' }
     Invoke-Docker @('cp', ($serverId + ':' + $script:StoragePath), (Join-Path $dir 'files')) | Out-Null
 
     $image = Get-DockerOutput @('compose', 'images', 'server')
     [System.IO.File]::WriteAllText((Join-Path $dir 'version.txt'), ($image + "`n"))
     Copy-Item -LiteralPath (Get-EnvPath) -Destination (Join-Path $dir 'env.txt')
-    $script:BackupDir = $dir
-    Say ('Backup saved in: ' + $dir)
-    Say 'It contains your encryption key. Keep it private, and copy it to another disk or cloud storage.'
-
-    if ($KeepDays -gt 0) {
-        $limit = (Get-Date).AddDays(-$KeepDays)
-        Get-ChildItem -LiteralPath $backups -Directory |
-            Where-Object { $_.Name -match '^\d{4}-\d{2}-\d{2}_\d{6}$' -and $_.LastWriteTime -lt $limit } |
-            Remove-Item -Recurse -Force -Confirm:$false
-    }
 }
 
 function Select-Backup {
@@ -445,12 +479,29 @@ function Invoke-Restore([string]$BackupDir, [switch]$Yes) {
     Say 'Restore finished.'
 }
 
+# Newest published release number (pre-releases excluded), or ''.
 function Get-LatestRelease {
+    [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
+    # 1) GitHub API. Without a token it allows 60 requests per hour per IP address, which a shared office
+    #    connection can use up; a token in GITHUB_TOKEN (environment or .env) raises the limit.
+    $token = $env:GITHUB_TOKEN
+    if (-not $token) { $token = Get-EnvValue 'GITHUB_TOKEN' '' }
     try {
-        [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
-        $release = Invoke-RestMethod -Uri $script:ReleasesApi -UseBasicParsing -TimeoutSec 20
+        $headers = @{}
+        if ($token) { $headers['Authorization'] = 'Bearer ' + $token }
+        $release = Invoke-RestMethod -Uri $script:ReleasesApi -Headers $headers -UseBasicParsing -TimeoutSec 20
         $tag = [string]$release.tag_name
         if ($tag.StartsWith('bangla-v')) { return $tag.Substring(8) }
+    } catch { }
+    # 2) Fallback without the API limit: the releases/latest web page redirects to .../releases/tag/bangla-vX.Y.Z.
+    try {
+        $request = [System.Net.HttpWebRequest]::Create($script:ReleasesPage)
+        $request.Method = 'HEAD'
+        $request.AllowAutoRedirect = $false
+        $request.Timeout = 20000
+        $response = $request.GetResponse()
+        try { $location = [string]$response.Headers['Location'] } finally { $response.Close() }
+        if ($location -match '/releases/tag/bangla-v([0-9A-Za-z.-]+)$') { return $Matches[1] }
     } catch { }
     return ''
 }

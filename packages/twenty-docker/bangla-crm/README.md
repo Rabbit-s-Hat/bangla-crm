@@ -33,7 +33,14 @@ BanglaCRM is a customer-relationship manager with a **Bangla interface by defaul
 **Installer options** (another port, sharing on your network, a specific version): open the BanglaCRM folder, type `cmd` in the folder's address bar and press Enter, then run for example:
 `Install-Bangla-CRM.cmd -Port 3100`, `Install-Bangla-CRM.cmd -Lan`, or `Install-Bangla-CRM.cmd -Version 0.1.0`.
 
-### macOS and Linux
+### macOS
+Double-click **`Install-Bangla-CRM.command`** in the unzipped folder. A Terminal window opens and runs the installer.
+
+**The first time only**, macOS may say the file "cannot be opened because it is from an unidentified developer". Then **right-click** (or Control-click) the file, choose **Open**, and click **Open** again. After that, double-click works for every `.command` file in the folder. (Or, in Terminal, once: `xattr -dr com.apple.quarantine <the folder>`.)
+
+From Terminal, inside the folder, you can also run `bash install.sh` with options.
+
+### Linux (and macOS from Terminal)
 ```bash
 bash install.sh
 ```
@@ -81,6 +88,8 @@ Notes:
 
 ## 4. Everyday use
 
+On macOS you can double-click the `.command` file of the same name instead of typing the command (for example `Start-Bangla-CRM.command`).
+
 | Task | Windows (double-click; options from a `cmd` window in the folder) | macOS / Linux |
 |---|---|---|
 | Start | `Start-Bangla-CRM.cmd` | `bash bangla-crm.sh start` |
@@ -88,7 +97,7 @@ Notes:
 | Back up | `Backup-Bangla-CRM.cmd` | `bash bangla-crm.sh backup` |
 | Update to the newest release | `Update-Bangla-CRM.cmd` | `bash bangla-crm.sh update` |
 | Update to a specific release | `Update-Bangla-CRM.cmd -Version 0.2.0` | `bash bangla-crm.sh update --version 0.2.0` |
-| Restore a backup | `Restore-Bangla-CRM.cmd` (asks which one; or drag a backup folder onto it) | `bash bangla-crm.sh restore backups/<date-time>` |
+| Restore a backup | `Restore-Bangla-CRM.cmd` (asks which one; or drag a backup folder onto it) | `bash bangla-crm.sh restore backups/<date-time>` (`Restore-Bangla-CRM.command` asks which one) |
 | Logs | `Logs-Bangla-CRM.cmd` | `bash bangla-crm.sh logs` |
 | Status | `powershell -ExecutionPolicy Bypass -File bangla-crm.ps1 status` | `bash bangla-crm.sh status` |
 
@@ -96,6 +105,7 @@ BanglaCRM restarts automatically with Docker Desktop if it was running when the 
 
 ### Backups
 - A backup is a folder `backups/<date-time>/` containing `database.dump`, `files/` (uploaded attachments), `env.txt` (a copy of your settings, **including the encryption key**) and `version.txt`.
+- Before it starts, a backup checks that the disk has room for about twice the database plus all uploaded files (plus 1 GB). If a backup stops halfway, the unfinished folder (`<date-time>.partial`) is removed, so every folder in `backups/` without `.partial` is a complete backup.
 - **Keep backups private.** Anyone with a backup can read your CRM data. Copy them to another disk or a private cloud folder; a backup on the same disk does not protect you from a disk failure.
 - On cloud servers, `deploy-cloud.sh` can set up a nightly backup at 02:30 Bangladesh time that keeps the last 14 days.
 

@@ -15,6 +15,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 
 STORAGE_PATH=/app/packages/twenty-server/.local-storage
 RELEASES_API=https://api.github.com/repos/Rabbit-s-Hat/bangla-crm/releases/latest
+RELEASES_PAGE=https://github.com/Rabbit-s-Hat/bangla-crm/releases/latest
 IMAGE=ghcr.io/rabbit-s-hat/bangla-crm
 SERVER_TRIES=360 # x 5 s = 30 minutes (the first start creates the database)
 
@@ -166,10 +167,22 @@ open_browser() {
 
 free_kb() { df -Pk "${1:-.}" | awk 'NR == 2 { print $4 }'; }
 
+# Size of the uploaded files in KB (0 when no app container is running to measure them).
+uploaded_files_kb() {
+  local svc kb
+  for svc in server worker; do
+    if is_running "$svc"; then
+      kb="$(docker compose exec -T "$svc" du -sk "$STORAGE_PATH" 2>/dev/null | awk 'NR == 1 { print $1 }' | tr -dc '0-9' || true)"
+      if [ -n "$kb" ]; then printf '%s' "$kb"; return; fi
+    fi
+  done
+  printf '0'
+}
+
 # --- Commands ---------------------------------------------------------------------------------
 
 cmd_backup() {
-  local keep_days="" user db stamp dir server_id db_kb need_kb
+  local keep_days="" user db stamp dir final server_id db_kb files_kb need_kb
   while [ $# -gt 0 ]; do
     case "$1" in
       --keep-days) [ $# -ge 2 ] || fail "--keep-days needs a number"; keep_days="$2"; shift 2 ;;
@@ -186,19 +199,26 @@ cmd_backup() {
   user="$(env_get PG_DATABASE_USER postgres)"
   db="$(env_get PG_DATABASE_NAME default)"
 
-  # Free space: the dump is smaller than the live database, so 2x database + 1 GB is a safe margin.
+  # Free space: the dump is smaller than the live database, so 2x database + uploaded files + 1 GB is a safe margin.
   db_kb="$(docker compose exec -T db psql -U "$user" -d "$db" -tAc "SELECT pg_database_size(current_database()) / 1024" 2>/dev/null | tr -dc '0-9' || true)"
-  need_kb=$(( ${db_kb:-0} * 2 + 1048576 ))
+  files_kb="$(uploaded_files_kb)"
+  need_kb=$(( ${db_kb:-0} * 2 + ${files_kb:-0} + 1048576 ))
   mkdir -p backups
   chmod 700 backups
+  # A backup that was interrupted earlier (power cut, Ctrl+C) is never a usable backup: remove it.
+  find backups -mindepth 1 -maxdepth 1 -type d -name '*.partial' -exec rm -rf {} +
   if [ "$(free_kb backups)" -lt "$need_kb" ]; then
     fail "Not enough free disk space for a backup (need about $((need_kb / 1024)) MB). Delete old backups or free some space."
   fi
 
+  # Write into <date-time>.partial and rename only when complete, so a failed backup never looks like a good one.
   stamp="$(date +%Y-%m-%d_%H%M%S)"
-  dir="backups/$stamp"
+  final="backups/$stamp"
+  dir="$final.partial"
   mkdir -p "$dir"
   chmod 700 "$dir"
+  PARTIAL_BACKUP="$dir"
+  trap 'if [ -n "${PARTIAL_BACKUP:-}" ]; then rm -rf "$PARTIAL_BACKUP"; say "The unfinished backup was removed."; fi' EXIT
 
   say "Saving the database..."
   docker compose exec -T db pg_dump -U "$user" -d "$db" -Fc -f /tmp/bangla-crm-backup.dump
@@ -211,12 +231,16 @@ cmd_backup() {
     docker compose create server >/dev/null 2>&1 || true
     server_id="$(container_id server)"
   fi
-  [ -n "$server_id" ] || fail "Could not reach the uploaded files. The database part of the backup is in $dir."
+  [ -n "$server_id" ] || fail "Could not reach the uploaded files, so the backup was not completed."
   docker cp "$server_id:$STORAGE_PATH" "$dir/files"
 
   docker compose images server 2>/dev/null | awk 'NR > 1 { print $2 ":" $3 }' > "$dir/version.txt" || true
   cp .env "$dir/env.txt"
   chmod 600 "$dir/env.txt"
+  mv "$dir" "$final"
+  dir="$final"
+  PARTIAL_BACKUP=""
+  trap - EXIT
   say "Backup saved in: $dir"
   say "It contains your encryption key. Keep it private, and copy it to another disk or cloud storage."
 
@@ -317,10 +341,23 @@ cmd_restore() {
   say "Restore finished."
 }
 
-latest_release() { # prints the newest published release number, or nothing
-  local json
-  json="$(curl -fsSL --max-time 20 "$RELEASES_API" 2>/dev/null || wget -qO- --timeout=20 "$RELEASES_API" 2>/dev/null || true)"
-  printf '%s' "$json" | sed -n 's/.*"tag_name"[[:space:]]*:[[:space:]]*"bangla-v\([^"]*\)".*/\1/p' | head -n 1
+latest_release() { # prints the newest published release number (pre-releases excluded), or nothing
+  local json version url token
+  token="${GITHUB_TOKEN:-$(env_get GITHUB_TOKEN "")}"
+  # 1) GitHub API. Without a token it allows 60 requests per hour per IP address, which a shared office
+  #    connection can use up; a token in GITHUB_TOKEN (environment or .env) raises the limit.
+  if [ -n "$token" ]; then
+    json="$(curl -fsSL --max-time 20 -H "Authorization: Bearer $token" "$RELEASES_API" 2>/dev/null || true)"
+  else
+    json="$(curl -fsSL --max-time 20 "$RELEASES_API" 2>/dev/null || wget -qO- --timeout=20 "$RELEASES_API" 2>/dev/null || true)"
+  fi
+  version="$(printf '%s' "$json" | sed -n 's/.*"tag_name"[[:space:]]*:[[:space:]]*"bangla-v\([^"]*\)".*/\1/p' | head -n 1)"
+  # 2) Fallback without the API limit: the releases/latest web page redirects to .../releases/tag/bangla-vX.Y.Z.
+  if [ -z "$version" ]; then
+    url="$(curl -fsSIL --max-time 20 -o /dev/null -w '%{url_effective}' "$RELEASES_PAGE" 2>/dev/null || true)"
+    version="$(printf '%s' "$url" | sed -n 's#.*/releases/tag/bangla-v\([0-9A-Za-z.-]*\)$#\1#p')"
+  fi
+  printf '%s' "$version"
 }
 
 cmd_update() {
